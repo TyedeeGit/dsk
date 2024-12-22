@@ -1,0 +1,25 @@
+# DSRT(DTL Standard Runtime)
+
+This is the C library implementation of the [DTL Standard Runtime](https://github.com/TyedeeGit/dsrt). The library
+provides the minimal runtime support for all DTL applications.
+
+## Features
+
+*   [DTL Standard Runtime](https://github.com/dtlworks/dtl-standard-runtime) C library implementation.
+*   Small, portable, and dependency-free.
+*   Supports Windows, macOS, and Linux.
+
+## Installation
+
+*   Clone the repository using `git clone https://github.com/TyedeeGit/dsrt`.
+*   Change into the cloned directory using `cd dsrt`.
+*   Build the library using `cmake . && cmake --build .`.
+*   Install the library using `cmake --install .`.
+
+## Contributing
+
+Contributions are welcome! Please open a pull request to contribute code or open an issue to report any problems.
+
+## License
+
+The DSRT library is licensed under the [MIT License](https://opensource.org/licenses/MIT). See the [LICENSE](LICENSE) file for the full text.
