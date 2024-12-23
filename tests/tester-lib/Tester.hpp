@@ -36,10 +36,10 @@ namespace TesterLib {
             virtual std::string get_full_name() const = 0;
 
             /**
-             * @brief Gets the results of the tester.
-             * @return The results.
+             * @brief Run the test(s).
+             * @return The results of the test(s).
              */
-            virtual Results get_results() const = 0;
+            virtual Results test() const = 0;
     };
 
 } // TesterLib

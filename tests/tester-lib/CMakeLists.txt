@@ -17,4 +17,6 @@ add_library(tester-lib STATIC
         Results.hpp
         TestResults.cpp
         TestResults.hpp
+        Test.cpp
+        Test.hpp
 )
