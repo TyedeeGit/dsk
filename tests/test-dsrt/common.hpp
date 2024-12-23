@@ -8,3 +8,4 @@
 
 #pragma once
 #include "../tester-lib/all.hpp"
+#include "../../src/dsrt/main.h"

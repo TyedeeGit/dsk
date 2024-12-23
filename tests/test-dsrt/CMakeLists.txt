@@ -13,3 +13,4 @@ add_executable(test-dsrt
         common.hpp)
 
 target_link_libraries(test-dsrt PRIVATE tester-lib)
+target_link_libraries(test-dsrt PRIVATE dsrt)
