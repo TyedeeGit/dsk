@@ -52,6 +52,11 @@ namespace TesterLib {
             Results(const unsigned total, const unsigned passed) : total(total), passed(passed) {}
         public:
             /**
+             * @brief No argument constructor.
+             */
+            Results() : total(0), passed(0) {}
+
+            /**
              * @brief Constructor
              * @param total The total amount of tests.
              * @param passed The amount of passed tests.
