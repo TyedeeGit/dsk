@@ -11,7 +11,9 @@
 #include "dsrt_memory.h"
 
 DSRTSize dsrt_simple_get_alloc_size(DSRTSimpleAllocator allocator) {
-    return allocator.is_array ? allocator.descriptor.array_of.num * allocator.descriptor.array_of.size : allocator.descriptor.size_of;
+    return allocator.is_array
+               ? allocator.descriptor.array_of.num * allocator.descriptor.array_of.size
+               : allocator.descriptor.size_of;
 }
 
 DSRTSize dsrt_simple_get_obj_size(DSRTSimpleObject obj) {
@@ -71,13 +73,15 @@ void dsrt_simple_del(DSRTSimpleObject object) {
     free(dsrt_simple_heap[object.ind]);
 
     // Copy all objects after this one into the temporary buffer and decrement their indices.
-    memccpy(later_objects, dsrt_simple_heap + object.ind + 1, dsrt_simple_heap_size - object.ind + 1, sizeof(DSRTSimpleObject *));
+    memccpy(later_objects, dsrt_simple_heap + object.ind + 1, dsrt_simple_heap_size - object.ind + 1,
+            sizeof(DSRTSimpleObject *));
     for (DSRTIndex i = 0; i < dsrt_simple_heap_size - object.ind - 1; i++) {
         later_objects[i].ind--;
     }
 
     // Copy the temporary buffer into the heap and free it.
-    memccpy(dsrt_simple_heap + object.ind, later_objects, dsrt_simple_heap_size - object.ind + 1, sizeof(DSRTSimpleObject *));
+    memccpy(dsrt_simple_heap + object.ind, later_objects, dsrt_simple_heap_size - object.ind + 1,
+            sizeof(DSRTSimpleObject *));
     free(later_objects);
 
     // Decrement the heap size.

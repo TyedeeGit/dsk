@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <iostream>
 
@@ -23,4 +24,4 @@ namespace Logging {}
 /**
  * @brief Namespace for testers.
  */
-namespace Testers {}
+namespace TesterLib {}

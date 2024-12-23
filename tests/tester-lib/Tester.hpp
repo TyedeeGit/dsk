@@ -12,7 +12,7 @@
 #include "common.hpp"
 #include "Results.hpp"
 
-namespace Testers {
+namespace TesterLib {
     /**
      * @brief Base class for testers.
      */
@@ -42,4 +42,4 @@ namespace Testers {
             virtual Results get_results() const = 0;
     };
 
-} // Testers
+} // TesterLib

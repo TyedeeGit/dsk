@@ -5,11 +5,10 @@
  *
  * @file Tester.cpp
  * @author Gianmarco Lenzi
- * @brief 
+ * @brief Source file for tester class.
  */
 
 #include "Tester.hpp"
 
-namespace Testers {
-    // TODO: implement
-} // Testers
+namespace TesterLib {
+} // TesterLib
