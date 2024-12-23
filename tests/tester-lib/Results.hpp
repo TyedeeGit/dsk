@@ -20,12 +20,12 @@ namespace TesterLib {
             /**
              * @brief The total amount of tests.
              */
-            const unsigned total;
+            unsigned total;
 
             /**
              * @brief The amount of passed tests.
              */
-            const unsigned passed;
+            unsigned passed;
         protected:
             /**
              * @brief The warnings messages generated.
@@ -37,6 +37,12 @@ namespace TesterLib {
              * @return The amount of passed tests.
              */
             unsigned get_passed() const { return passed; }
+
+            /**
+             * @brief Sets the amount of passed tests.
+             * @param passed The new amount of passed tests.
+             */
+            void set_passed(const unsigned passed) { this->passed = passed; }
 
             /**
              * @brief Constructor initializing the total and passed, no warnings.

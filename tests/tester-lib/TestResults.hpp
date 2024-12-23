@@ -12,7 +12,9 @@
 
 namespace TesterLib {
 
-
+    /**
+    * @brief Class for storing test results.
+    */
     class TestResults : public Results {
         public:
             /**

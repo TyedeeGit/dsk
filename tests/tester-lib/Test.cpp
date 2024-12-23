@@ -16,4 +16,10 @@ namespace TesterLib {
     std::string Test::get_full_name() const {
         return module_name + "." + component_name + "." + name;
     }
+
+    Results Test::test() const {
+        Logging::log_info(get_full_name(), "Running test...");
+        return run();
+    }
+
 } // TesterLib
