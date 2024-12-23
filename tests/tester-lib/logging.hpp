@@ -12,10 +12,20 @@
 #include "common.hpp"
 
 namespace Logging{
+    /**
+     * @brief The type of message to log(INFO, PASS, WARN, FAIL).
+     */
     enum class MessageType {
+        /** @brief Informational message. */
         INFO,
+
+        /** @brief Pass message. */
         PASS,
+
+        /** @brief Warning message. */
         WARN,
+
+        /** @brief Fail message. */
         FAIL
     };
 
@@ -28,7 +38,7 @@ namespace Logging{
 
     /**
      * @brief Logs a message.
-     * @param type The type of message to log(INFO, PASS, WARN, FAIL).
+     * @param type The type of message to log.
      * @param scope The scope of the message.
      * @param message The message to log.
      */

@@ -5,14 +5,22 @@
  *
  * @file common.hpp
  * @author Gianmarco Lenzi
- * @brief Common header for test logging.
+ * @brief Common header for testers.
  */
 
 #pragma once
 #include <string>
+#include <vector>
+#include <unordered_map>
+#include <utility>
 #include <iostream>
 
 /**
- * @brief Namespace for test logging.
+ * @brief Namespace for logging.
  */
 namespace Logging {}
+
+/**
+ * @brief Namespace for testers.
+ */
+namespace Testers {}

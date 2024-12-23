@@ -4,8 +4,12 @@ Licensed under MIT as part of the DSK Project, see LICENSE file for details.
 A copy of the license can be found at: https://opensource.org/licenses/MIT.
 
 CMakeLists.txt
-Build the tests and tester library.
+Build the DSRT tester.
 #]=======================================================================]
 
-add_subdirectory(tester-lib)
-add_subdirectory(test-dsrt)
+add_executable(test-dsrt
+        main.cpp
+        main.hpp
+        common.hpp)
+
+target_link_libraries(test-dsrt PRIVATE tester-lib)
