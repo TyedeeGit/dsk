@@ -43,4 +43,32 @@ namespace Logging{
      * @param message The message to log.
      */
     void log(MessageType type, const std::string& scope, const std::string& message);
+
+    /**
+     * @brief Log an info message.
+     * @param scope The scope of the message.
+     * @param message The message to log.
+     */
+    void log_info(const std::string& scope, const std::string& message) { log(MessageType::INFO, scope, message); }
+
+    /**
+     * @brief Log a pass message.
+     * @param scope The scope of the message.
+     * @param message The message to log.
+     */
+    void log_pass(const std::string& scope, const std::string& message) { log(MessageType::PASS, scope, message); }
+
+    /**
+     * @brief Log a warn message.
+     * @param scope The scope of the message.
+     * @param message The message to log.
+     */
+    void log_warn(const std::string& scope, const std::string& message) { log(MessageType::WARN, scope, message); }
+
+    /**
+     * @brief Log a fail message.
+     * @param scope The scope of the message.
+     * @param message The message to log.
+     */
+    void log_fail(const std::string& scope, const std::string& message) { log(MessageType::FAIL, scope, message); }
 }
