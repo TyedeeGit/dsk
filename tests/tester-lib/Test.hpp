@@ -18,21 +18,6 @@ namespace TesterLib {
      * @brief Class for unit tests.
      */
     class Test : public Tester {
-        private:
-            /**
-             * @brief The name of the component.
-             */
-            std::string component_name;
-
-            /**
-             * @brief The name of the module.
-             */
-            std::string module_name;
-
-            /**
-             * @brief The name of the test.
-             */
-            std::string name;
         protected:
             /**
              * @brief Run this test.
@@ -42,13 +27,8 @@ namespace TesterLib {
         public:
             /**
              * @brief Constructor.
-             * @param component_name The name of the component.
-             * @param module_name The name of the module.
-             * @param name The name of the test.
              */
-            Test(std::string component_name, std::string module_name,
-                 std::string name) : component_name(std::move(component_name)), module_name(std::move(module_name)),
-                                     name(std::move(name)) {}
+            Test() = default;
 
             /**
              * @brief Gets the name of the test.
