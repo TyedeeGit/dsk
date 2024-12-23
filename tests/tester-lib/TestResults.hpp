@@ -20,15 +20,14 @@ namespace TesterLib {
             /**
              * @brief No argument constructor.
              */
-            TestResults() = default;
+            TestResults() : Results(1, true) {}
 
             /**
              * @brief Constructor.
-             * @param total The total amount of tests.
              * @param passed The amount of passed tests.
              * @param warnings The warnings messages generated.
              */
-            TestResults(unsigned total, bool passed, const std::unordered_set<std::string>& warnings);
+            TestResults(bool passed, const std::unordered_set<std::string>& warnings);
 
             /**
              * @brief Get the warnings messages generated.

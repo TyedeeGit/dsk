@@ -9,8 +9,8 @@
 #include "TestResults.hpp"
 
 namespace TesterLib {
-    TestResults::TestResults(const unsigned total, const bool passed,
-                             const std::unordered_set<std::string> &warnings): Results(total, passed) {
+    TestResults::TestResults(const bool passed,
+                             const std::unordered_set<std::string> &warnings): Results(1, passed) {
         std::unordered_map<std::string, std::string> warnings_map;
 
         // Convert the warnings set to a map(keys are empty strings)
