@@ -11,14 +11,15 @@
 namespace TesterLib {
     TestResults::TestResults(const unsigned total, const bool passed,
                              const std::unordered_set<std::string> &warnings): Results(total, passed) {
-        // Convert the warnings set to a map(keys are empty strings)
         std::unordered_map<std::string, std::string> warnings_map;
+
+        // Convert the warnings set to a map(keys are empty strings)
         for (const auto &warning: warnings) {
             warnings_map[""] = warning;
         }
 
         // Set the warnings
-        this->warnings = warnings_map;
+        this->warnings = std::move(warnings_map);
     }
 
 
