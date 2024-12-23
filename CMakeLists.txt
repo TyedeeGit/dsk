@@ -4,7 +4,7 @@ Licensed under MIT as part of the DSK project, see LICENSE file for details.
 A copy of the license can be found at: https://opensource.org/licenses/MIT.
 
 CMakeLists.txt
-Build all libraries and tests.
+Build all components and their tests.
 #]=======================================================================]
 
 cmake_minimum_required(VERSION 3.28)
