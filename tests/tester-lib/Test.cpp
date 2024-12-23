@@ -9,16 +9,10 @@
 #include "Test.hpp"
 
 namespace TesterLib {
-    std::string Test::get_name() const {
-        return name;
-    }
-
-    std::string Test::get_full_name() const {
-        return module_name + "." + component_name + "." + name;
-    }
-
     Results Test::test() const {
+        // Log the start of the test
         Logging::log_info(get_full_name(), "Running test...");
+        // Run the test
         return run();
     }
 

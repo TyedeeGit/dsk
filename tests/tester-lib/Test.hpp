@@ -31,18 +31,6 @@ namespace TesterLib {
             Test() = default;
 
             /**
-             * @brief Gets the name of the test.
-             * @return The name.
-             */
-            std::string get_name() const override;
-
-            /**
-             * @brief Gets the full name of the test.
-             * @return The full name.
-             */
-            std::string get_full_name() const override;
-
-            /**
              * @brief Run the test.
              * @return The results of the test.
              */
