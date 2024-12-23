@@ -27,9 +27,11 @@ namespace TesterLib {
         std::unordered_map<std::string, std::string> warnings_map = this->warnings;
         std::unordered_set<std::string> warnings;
 
+
         // Convert the map to a set
-        for (auto &[fst, snd] : warnings_map) {
-            warnings.insert(snd);
+        // ReSharper disable once CppUseStructuredBinding
+        for (const auto& pair : warnings_map) {
+            warnings.insert(pair.second);
         }
 
         // Return the set

@@ -52,8 +52,8 @@ namespace TesterLib {
              * @param warnings The warnings messages generated.
              */
             Results(const unsigned total, const unsigned passed,
-                    const std::unordered_map<std::string, std::string> &warnings) : total(total), passed(passed),
-                warnings(warnings) {}
+                    std::unordered_map<std::string, std::string> &warnings) : total(total), passed(passed),
+                warnings(std::move(warnings)) {}
 
             /**
              * @brief Gets the total amount of tests.
