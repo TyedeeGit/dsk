@@ -9,6 +9,9 @@
 #pragma once
 #include "common.hpp"
 #include "logging.hpp"
-#include "Results.hpp"
-#include "TestResults.hpp"
+
 #include "Tester.hpp"
+#include "Results.hpp"
+
+#include "Test.hpp"
+#include "TestResults.hpp"
