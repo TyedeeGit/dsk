@@ -18,6 +18,11 @@ namespace TesterLib {
     class TestResults : public Results {
         public:
             /**
+             * @brief No argument constructor.
+             */
+            TestResults() = default;
+
+            /**
              * @brief Constructor.
              * @param total The total amount of tests.
              * @param passed The amount of passed tests.
