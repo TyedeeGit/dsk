@@ -34,6 +34,17 @@ namespace TesterLib {
              * @return The warnings.
              */
             std::unordered_set<std::string> get_warnings() const;
+
+            /**
+             * @brief Add a warning message.
+             * @param warning The warning message to add.
+             */
+            void add_warning(const std::string& warning);
+
+            /**
+             * @brief Fail the test.
+             */
+            void fail();
     };
 
 } // TesterLib

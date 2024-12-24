@@ -35,4 +35,12 @@ namespace TesterLib {
         // Return the set
         return warnings;
     }
+
+    void TestResults::add_warning(const std::string &warning) {
+        this->warnings[""] = warning;
+    }
+
+    void TestResults::fail() {
+        this->set_passed(0);
+    }
 } // TesterLib
