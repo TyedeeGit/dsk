@@ -32,8 +32,7 @@ namespace TesterLib {
              * @param passed The amount of passed tests.
              * @param warnings The warnings messages generated.
              */
-            TestResults(bool passed, const TestWarnings& warnings);
-
+            TestResults(const bool passed, TestWarnings warnings) : Results(1, passed), warnings(std::move(warnings)) {}
 
             /**
              * @brief Get the total amount of warnings.

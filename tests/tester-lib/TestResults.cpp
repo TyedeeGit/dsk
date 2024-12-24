@@ -9,9 +9,6 @@
 #include "TestResults.hpp"
 
 namespace TesterLib {
-    TestResults::TestResults(const bool passed, const TestWarnings &warnings): Results(1, passed) {
-        this->warnings = warnings;
-    }
 
     unsigned TestResults::get_total_warnings() const {
         return this->warnings.size();
