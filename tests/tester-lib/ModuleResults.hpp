@@ -20,7 +20,7 @@ namespace TesterLib {
             /**
              * @brief The results of the tests in the module.
              */
-            std::unordered_map<std::string, TestResults> tests;
+            std::unordered_map<std::string, const TestResults &> tests;
 
             /**
              * @brief The total number of tests in the module.
@@ -70,7 +70,7 @@ namespace TesterLib {
              * @brief Constructor.
              * @param tests The results of the tests in the module.
              */
-            explicit ModuleResults(std::unordered_map<std::string, TestResults> tests) : tests(std::move(tests)) {
+            explicit ModuleResults(std::unordered_map<std::string, const TestResults&> tests) : tests(std::move(tests)) {
                 update_totals();
             }
 
@@ -80,7 +80,7 @@ namespace TesterLib {
              * @param test_result The test result.
              */
             void add_test(const std::string &test_name, const TestResults &test_result) {
-                this->tests[test_name] = test_result;
+                this->tests.insert({test_name, test_result});
                 update_totals();
             }
 
