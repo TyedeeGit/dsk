@@ -18,12 +18,6 @@ namespace TesterLib {
      * @brief Class for unit tests.
      */
     class Test : public Tester {
-        protected:
-            /**
-             * @brief Run this test.
-             * @return The results of the test.
-             */
-            virtual TestResults run() const = 0;
         public:
             /**
              * @brief Constructor.
@@ -34,7 +28,7 @@ namespace TesterLib {
              * @brief Run the test.
              * @return The results of the test.
              */
-            Results test() const;
+            virtual TestResults test() const = 0;
     };
 
 } // TesterLib

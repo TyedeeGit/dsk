@@ -9,11 +9,4 @@
 #include "Test.hpp"
 
 namespace TesterLib {
-    Results Test::test() const {
-        // Log the start of the test
-        Logging::log_info(get_full_name(), "Running test...");
-        // Run the test
-        return run();
-    }
-
 } // TesterLib

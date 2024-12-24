@@ -28,11 +28,6 @@ namespace TesterLib {
             unsigned passed;
         protected:
             /**
-             * @brief The warnings messages generated.
-             */
-            std::unordered_map<std::string, std::string> warnings;
-
-            /**
              * @brief Gets the amount of passed tests.
              * @return The amount of passed tests.
              */
@@ -57,16 +52,6 @@ namespace TesterLib {
             Results() : total(0), passed(0) {}
 
             /**
-             * @brief Constructor
-             * @param total The total amount of tests.
-             * @param passed The amount of passed tests.
-             * @param warnings The warnings messages generated.
-             */
-            Results(const unsigned total, const unsigned passed,
-                    std::unordered_map<std::string, std::string> &warnings) : total(total), passed(passed),
-                warnings(std::move(warnings)) {}
-
-            /**
              * @brief Gets the total amount of tests.
              * @return The total amount of tests.
              */
@@ -79,10 +64,10 @@ namespace TesterLib {
             bool is_pass() const { return passed == total; }
 
             /**
-             * @brief Get the total warnings generated.
-             * @return The total warnings.
+             * @brief Gets the total amount of warnings.
+             * @return The total amount of warnings.
              */
-            unsigned get_total_warnings() const { return warnings.size(); }
+            virtual unsigned get_total_warnings() const = 0;
     };
 
 } // TesterLib

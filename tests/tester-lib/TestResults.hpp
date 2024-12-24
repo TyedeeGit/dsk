@@ -16,6 +16,11 @@ namespace TesterLib {
     * @brief Class for storing test results.
     */
     class TestResults : public Results {
+        private:
+            /**
+             * @brief The warnings messages generated.
+             */
+            TestWarnings warnings;
         public:
             /**
              * @brief No argument constructor.
@@ -27,13 +32,20 @@ namespace TesterLib {
              * @param passed The amount of passed tests.
              * @param warnings The warnings messages generated.
              */
-            TestResults(bool passed, const std::unordered_set<std::string>& warnings);
+            TestResults(bool passed, const TestWarnings& warnings);
+
+
+            /**
+             * @brief Get the total amount of warnings.
+             * @return The total amount of warnings.
+             */
+            unsigned get_total_warnings() const override;
 
             /**
              * @brief Get the warnings messages generated.
              * @return The warnings.
              */
-            std::unordered_set<std::string> get_warnings() const;
+            TestWarnings get_warnings() const;
 
             /**
              * @brief Add a warning message.
