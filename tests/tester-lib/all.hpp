@@ -11,7 +11,7 @@
 #include "logging.hpp"
 
 #include "Tester.hpp"
-#include "Results.hpp"
 
 #include "Test.hpp"
 #include "TestResults.hpp"
+#include "ModuleResults.hpp"
