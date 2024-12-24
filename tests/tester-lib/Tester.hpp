@@ -10,7 +10,6 @@
 
 #pragma once
 #include "common.hpp"
-#include "Results.hpp"
 
 namespace TesterLib {
     /**
@@ -34,12 +33,6 @@ namespace TesterLib {
              * @return The fully qualified name.
              */
             virtual std::string get_full_name() const = 0;
-
-            /**
-             * @brief Run the test(s).
-             * @return The results of the test(s).
-             */
-            virtual Results test() const = 0;
     };
 
 } // TesterLib

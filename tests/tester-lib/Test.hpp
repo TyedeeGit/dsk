@@ -34,7 +34,7 @@ namespace TesterLib {
              * @brief Run the test.
              * @return The results of the test.
              */
-            Results test() const override;
+            Results test() const;
     };
 
 } // TesterLib
