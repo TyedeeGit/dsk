@@ -16,6 +16,7 @@
 #include <unordered_set>
 #include <utility>
 #include <iostream>
+#include <experimental/optional>
 
 /**
  * @brief Namespace for logging.

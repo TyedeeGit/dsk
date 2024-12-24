@@ -20,15 +20,14 @@ namespace TesterLib {
         const auto tests = this->get_tests();
 
         for (const auto &test : tests) {
-            // Log the start of the test.
-            Logging::log_info(test.get_full_name(), "Running test...");
-
             // Run the test.
             auto test_results = test.test();
 
             // Add the results.
             results.add_test(test.get_name(), test_results);
         }
+
+        // TODO: Log the results.
 
         // Return the results.
         return results;
