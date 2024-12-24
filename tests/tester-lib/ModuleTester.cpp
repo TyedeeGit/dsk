@@ -1,0 +1,36 @@
+/**
+ * Copyright (C) 2024-2025 Gianmarco Lenzi
+ *
+ * @file ModuleTester.cpp
+ * @author Gianmarco Lenzi
+ * @brief Implementation of the module tester class.
+ */
+
+#include "ModuleTester.hpp"
+
+namespace TesterLib {
+    ModuleResults ModuleTester::test_all() const {
+        // Log the start of the tests.
+        Logging::log_info(this->get_full_name(), "Running tests...");
+
+        // Initialize the results.
+        ModuleResults results;
+
+        // Get the tests.
+        auto tests = this->get_tests();
+
+        for (const auto &test : tests) {
+            // Log the start of the test.
+            Logging::log_info(test.get_full_name(), "Running test...");
+
+            // Run the test.
+            auto test_results = test.run();
+
+            // Add the results.
+            results.add_test(test_results);
+        }
+
+        // Return the results.
+        return results;
+    }
+} // TesterLib

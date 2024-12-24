@@ -14,4 +14,6 @@
 
 #include "Test.hpp"
 #include "TestResults.hpp"
+
+#include "ModuleTester.hpp"
 #include "ModuleResults.hpp"
