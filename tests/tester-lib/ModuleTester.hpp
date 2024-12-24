@@ -23,7 +23,7 @@ namespace TesterLib {
              * @brief Gets the tests in this module.
              * @return The tests in this module.
              */
-            virtual std::vector<const Test &> get_tests() const = 0;
+            virtual std::vector<Test> get_tests() const = 0;
         public:
             /**
              * @brief Constructor.
