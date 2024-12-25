@@ -26,7 +26,23 @@ namespace Logging {
         }
     }
 
+    std::string to_color(const MessageType type) {
+        switch (type) {
+            case MessageType::INFO:
+                return RESET;
+            case MessageType::PASS:
+                return GREEN;
+            case MessageType::WARN:
+                return YELLOW;
+            case MessageType::FAIL:
+                return RED;
+            default:
+                return "";
+        }
+    }
+
+
     void log(const MessageType type, const std::string& scope, const std::string& message) {
-        std::cout << "[" << to_string(type) << "] " << scope << ": " << message << std::endl;
+        std::cout << to_color(type) << "[" << to_string(type) << "] " << scope << ": " << message << RESET << std::endl;
     }
 }
