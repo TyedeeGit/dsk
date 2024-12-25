@@ -17,3 +17,6 @@
 
 #include "ModuleTester.hpp"
 #include "ModuleResults.hpp"
+
+#include "ComponentTester.hpp"
+#include "ComponentResults.hpp"

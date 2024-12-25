@@ -16,15 +16,9 @@ namespace TesterLib {
         // Initialize the results.
         ModuleResults results;
 
-        // Get the tests.
-        const auto tests = this->get_tests();
-
-        for (const auto &test : tests) {
-            // Run the test.
-            auto test_results = test.test();
-
+        for (const auto &test : this->get_tests()) {
             // Add the results.
-            results.add_test(test.get_name(), test_results);
+            results.add_test(test.get_name(), test.test());
         }
 
         // TODO: Log the results.

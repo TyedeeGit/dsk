@@ -19,4 +19,7 @@ add_library(tester-lib STATIC
         ModuleResults.hpp
         ModuleTester.cpp
         ModuleTester.hpp
+        ComponentTester.cpp
+        ComponentTester.hpp
+        ComponentResults.hpp
 )
