@@ -7,7 +7,7 @@ CMakeLists.txt
 Build the tester library.
 #]=======================================================================]
 
-add_library(tester-lib STATIC
+add_library(tester-lib SHARED
         all.hpp
         common.hpp
         logging.cpp

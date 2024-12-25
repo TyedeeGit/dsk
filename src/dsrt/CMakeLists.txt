@@ -7,7 +7,7 @@ CMakeLists.txt
 Build the DSRT library.
 #]=======================================================================]
 
-add_library(dsrt STATIC
+add_library(dsrt SHARED
         main.c
         main.h
         common.h
