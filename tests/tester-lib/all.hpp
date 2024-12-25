@@ -12,7 +12,7 @@
 
 #include "Tester.hpp"
 
-#include "Test.hpp"
+#include "UnitTester.hpp"
 #include "TestResults.hpp"
 
 #include "ModuleTester.hpp"

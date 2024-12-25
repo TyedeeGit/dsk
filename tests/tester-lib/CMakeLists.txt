@@ -14,7 +14,7 @@ add_library(tester-lib STATIC
         logging.hpp
         Tester.cpp
         Tester.hpp
-        Test.hpp
+        UnitTester.hpp
         TestResults.hpp
         ModuleResults.hpp
         ModuleTester.cpp

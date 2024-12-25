@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2024-2025 Gianmarco Lenzi
  *
- * @file Test.hpp
+ * @file UnitTester.hpp
  * @author Gianmarco Lenzi
  * @brief Header for unit test class.
  */
@@ -17,7 +17,7 @@ namespace TesterLib {
     /**
      * @brief Class for unit tests.
      */
-    class Test : public Tester {
+    class UnitTester : public Tester {
         private:
             /**
              * @brief The results of the test.
@@ -68,7 +68,7 @@ namespace TesterLib {
             /**
              * @brief Constructor.
              */
-            Test() = default;
+            UnitTester() = default;
 
             /**
              * @brief Gets the fully qualified name of the test.

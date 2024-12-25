@@ -10,7 +10,7 @@
 #include "common.hpp"
 #include "logging.hpp"
 
-#include "Test.hpp"
+#include "UnitTester.hpp"
 #include "ModuleResults.hpp"
 
 namespace TesterLib {
@@ -23,7 +23,7 @@ namespace TesterLib {
              * @brief Gets the tests in this module.
              * @return The tests in this module.
              */
-            virtual std::vector<Test *> get_tests() const = 0;
+            virtual std::vector<UnitTester *> get_tests() const = 0;
             /**
              * @brief Gets the name of the module.
              * @return The name of the module.
