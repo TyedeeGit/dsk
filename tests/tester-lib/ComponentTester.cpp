@@ -11,14 +11,17 @@
 namespace TesterLib {
     ComponentResults ComponentTester::test_all() const {
         // Log the start of the tests.
-        Logging::log_info(this->get_full_name(), "Running tests...");
+        Logging::log_info(this->get_full_name(), "Running component tests...");
 
         // Initialize the results.
         ComponentResults results;
 
         // Run all the modules.
         for (const auto &module : this->get_modules()) {
-            results.add_module(module.get_full_name(), module.test_all());
+            results.add_module(module->get_full_name(), module->test_all());
+
+            // Delete the module.
+            delete module;
         }
 
         // TODO: Log the results

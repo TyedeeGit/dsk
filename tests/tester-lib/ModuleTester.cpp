@@ -11,14 +11,17 @@
 namespace TesterLib {
     ModuleResults ModuleTester::test_all() const {
         // Log the start of the tests.
-        Logging::log_info(this->get_full_name(), "Running tests...");
+        Logging::log_info(this->get_full_name(), "Running module tests...");
 
         // Initialize the results.
         ModuleResults results;
 
         for (const auto &test : this->get_tests()) {
             // Add the results.
-            results.add_test(test.get_name(), test.test());
+            results.add_test(test->get_name(), test->test());
+
+            // Delete the test.
+            delete test;
         }
 
         // TODO: Log the results.

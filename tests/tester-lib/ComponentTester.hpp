@@ -24,7 +24,7 @@ namespace TesterLib {
              * @brief Gets the modules in this component.
              * @return The modules in this component.
              */
-            virtual std::vector<ModuleTester> get_modules() const = 0;
+            virtual std::vector<ModuleTester *> get_modules() const = 0;
 
             /**
              * @brief Gets the name of the component.
