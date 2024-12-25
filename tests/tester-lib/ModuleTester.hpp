@@ -24,11 +24,38 @@ namespace TesterLib {
              * @return The tests in this module.
              */
             virtual std::vector<Test> get_tests() const = 0;
+            /**
+             * @brief Gets the name of the module.
+             * @return The name of the module.
+             */
+            virtual std::string get_module_name() const = 0;
+
+            /**
+             * @brief Gets the name of the component.
+             * @return The name of the component.
+             */
+            virtual std::string get_component_name() const = 0;
         public:
             /**
              * @brief Constructor.
              */
             ModuleTester() = default;
+
+            /**
+             * @brief Gets the full name of the module.
+             * @return The full name of the module.
+             */
+            std::string get_full_name() const override {
+                return get_component_name() + "." + get_module_name();
+            }
+
+            /**
+             * @brief Gets the name of the module.
+             * @return The name of the module.
+             */
+            std::string get_name() const override {
+                return get_module_name();
+            }
 
             /**
              * @brief Runs all the tests in this module.

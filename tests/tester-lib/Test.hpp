@@ -46,11 +46,45 @@ namespace TesterLib {
              * @brief Run the test.
              */
             virtual void run() const = 0;
+
+            /**
+             * @brief Gets the name of the test.
+             * @return The name of the test.
+             */
+            virtual std::string get_test_name() const = 0;
+
+            /**
+             * @brief Gets the name of the module that the test belongs to.
+             * @return The name of the module.
+             */
+            virtual std::string get_module_name() const = 0;
+
+            /**
+             * @brief Gets the name of the component that the test belongs to.
+             * @return The name of the component.
+             */
+            virtual std::string get_component_name() const = 0;
         public:
             /**
              * @brief Constructor.
              */
             Test() = default;
+
+            /**
+             * @brief Gets the fully qualified name of the test.
+             * @return The full name in the format "component_name.module_name.test_name".
+             */
+            std::string get_full_name() const override {
+                return this->get_component_name() + "." + this->get_module_name() + "." + this->get_test_name();
+            }
+
+            /**
+             * @brief Gets the name of the test.
+             * @return The name of the test.
+             */
+            std::string get_name() const override {
+                return this->get_test_name();
+            }
 
             /**
              * @brief Run the test.
