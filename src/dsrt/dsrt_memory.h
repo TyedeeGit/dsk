@@ -19,7 +19,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <mem.h>
+#include <memory.h>
 #endif
 
 #ifdef __cplusplus
