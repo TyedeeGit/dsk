@@ -10,6 +10,12 @@
 
 
 int main() {
-    // TODO: Add tests
-    return 0;
+    // Initialize the tester
+    const TestDSRT::DSRTTester tester;
+
+    // Run the tests
+    const TesterLib::ComponentResults results = tester.test_all();
+
+    // Return the results
+    return results.get_passed_tests() == results.get_total_tests() ? 0 : 1;
 }

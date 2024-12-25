@@ -9,3 +9,13 @@
 #pragma once
 #include "../tester-lib/all.hpp"
 #include "../../src/dsrt/main.h"
+
+/**
+ * @brief Namespace for the DSRT tester.
+ */
+namespace TestDSRT {
+    using namespace Logging;
+    using namespace TesterLib;
+
+    const std::string component_name = "dsrt";
+} // TestDSRT

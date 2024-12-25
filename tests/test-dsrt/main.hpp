@@ -9,6 +9,8 @@
 #pragma once
 #include "common.hpp"
 
+#include "DSRTTester.hpp"
+
 /**
  * @brief Runs the DSRT tester.
  * @return 0 if all tests pass, 1 otherwise
