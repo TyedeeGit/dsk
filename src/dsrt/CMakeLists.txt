@@ -13,4 +13,6 @@ add_library(dsrt SHARED
         common.h
         dsrt_memory.c
         dsrt_memory.h
+        err.c
+        err.h
 )

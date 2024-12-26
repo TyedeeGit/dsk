@@ -10,6 +10,7 @@
 
 #pragma once
 #include "common.h"
+#include "err.h"
 #include "dsrt_memory.h"
 
 #ifdef __cplusplus
