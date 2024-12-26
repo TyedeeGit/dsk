@@ -12,17 +12,6 @@
 #include "common.h"
 
 #ifdef __cplusplus
-#include <cstdbool>
-#include <cstdlib>
-#include <cstdio>
-#else
-#include <stdbool.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <memory.h>
-#endif
-
-#ifdef __cplusplus
 extern "C" {
 #endif
 

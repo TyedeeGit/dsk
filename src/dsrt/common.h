@@ -11,11 +11,14 @@
 #pragma once
 
 #ifdef __cplusplus
-#include <cstddef>
+#include <cstdbool>
 #include <cstdlib>
+#include <cstdio>
 #else
-#include <stddef.h>
+#include <stdbool.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <memory.h>
 #endif
 
 #ifdef __cplusplus
