@@ -207,9 +207,9 @@ DSRTSimpleObject dsrt_simple_new(DSRTSimpleAllocator allocator);
 void dsrt_simple_del(DSRTSimpleObject obj);
 
 /**
- * @brief Uninitialize the global simple object heap.
+ * @brief Deinitialize the global simple object heap.
  */
-void dsrt_simple_heap_exit(void);
+void dsrt_simple_heap_deinit(void);
 
 /**
  * @brief The global term object heap size.
@@ -232,9 +232,9 @@ static DSRTTermObject **dsrt_term_heap;
 void dsrt_term_heap_init(void);
 
 /**
- * @brief Uninitialize the global term object heap.
+ * @brief Deinitialize the global term object heap.
  */
-void dsrt_term_heap_exit(void);
+void dsrt_term_heap_deinit(void);
 
 #ifdef __cplusplus
 }

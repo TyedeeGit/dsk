@@ -37,7 +37,7 @@ DSRTSimpleObject dsrt_simple_new(const DSRTSimpleAllocator allocator) {
         // If the reallocation fails, print an error message and exit.
         if (new_heap == NULL) {
             fprintf(stderr, "DTL runtime error: Out of memory\n");
-            dsrt_exit();
+            dsrt_deinit();
             exit(1);
         }
 
@@ -65,7 +65,7 @@ void dsrt_simple_del(const DSRTSimpleObject obj) {
     // If the allocation fails, print an error message and exit.
     if (later_objects == NULL) {
         fprintf(stderr, "DTL runtime error: Out of memory\n");
-        dsrt_exit();
+        dsrt_deinit();
         exit(1);
     }
     // Actually free the object and set its freed flag to true.
@@ -95,7 +95,7 @@ void dsrt_simple_del(const DSRTSimpleObject obj) {
         // If the reallocation fails, print an error message and exit.
         if (new_heap == NULL) {
             fprintf(stderr, "DTL runtime error: Out of memory\n");
-            dsrt_exit();
+            dsrt_deinit();
             exit(1);
         }
 

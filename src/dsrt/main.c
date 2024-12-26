@@ -15,7 +15,7 @@ void dsrt_init(void) {
     dsrt_term_heap_init();
 }
 
-void dsrt_exit(void) {
-    dsrt_simple_heap_exit();
-    dsrt_term_heap_exit();
+void dsrt_deinit(void) {
+    dsrt_simple_heap_deinit();
+    dsrt_term_heap_deinit();
 }

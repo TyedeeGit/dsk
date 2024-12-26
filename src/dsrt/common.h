@@ -90,9 +90,9 @@ void dsrt_free_all(void);
 void dsrt_init(void);
 
 /**
- * @brief Uninitialize DSRT library.
+ * @brief Deinitialize DSRT library.
  */
-void dsrt_exit(void);
+void dsrt_deinit(void);
 
 /**
  * @brief Create a singleton size args.
