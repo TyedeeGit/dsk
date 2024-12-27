@@ -36,13 +36,15 @@ DSRTSimpleObject dsrt_simple_new(const DSRTSimpleAllocator allocator) {
 
         // If the reallocation fails, print an error message and exit.
         if (new_heap == NULL) {
-            fprintf(stderr, "DTL runtime error: Out of memory\n");
-            dsrt_deinit();
-            exit(1);
+            dsrt_error(DSRT_OUT_OF_MEMORY);
         }
 
         // Update the heap pointer.
         dsrt_simple_heap = new_heap;
+    }
+
+    if (dsrt_simple_heap == NULL) {
+        dsrt_error(DSRT_INVALID_HEAP);
     }
 
     // Push the new object onto the heap, initialize it, increment the heap size, and return the object.
@@ -62,25 +64,30 @@ DSRTSimpleObject dsrt_simple_new(const DSRTSimpleAllocator allocator) {
 void dsrt_simple_del(const DSRTSimpleObject obj) {
     // Store all objects after this one in a temporary buffer.
     DSRTSimpleObject *later_objects = calloc(dsrt_simple_heap_size - obj.ind + 1, sizeof(DSRTSimpleObject *));
+
     // If the allocation fails, print an error message and exit.
     if (later_objects == NULL) {
-        fprintf(stderr, "DTL runtime error: Out of memory\n");
-        dsrt_deinit();
-        exit(1);
+        dsrt_error(DSRT_OUT_OF_MEMORY);
     }
-    // Actually free the object and set its freed flag to true.
+
+    // Actually free the object.
     free(obj.obj);
     free(dsrt_simple_heap[obj.ind]);
 
     // Copy all objects after this one into the temporary buffer and decrement their indices.
-    memccpy(later_objects, dsrt_simple_heap + obj.ind + 1, dsrt_simple_heap_size - obj.ind + 1,
+    _memccpy(later_objects, dsrt_simple_heap + obj.ind + 1, dsrt_simple_heap_size - obj.ind + 1,
             sizeof(DSRTSimpleObject *));
+
+    if (later_objects == NULL) {
+        dsrt_error(DSRT_FAILED_COPY);
+    }
+
     for (DSRTIndex i = 0; i < dsrt_simple_heap_size - obj.ind - 1; i++) {
         later_objects[i].ind--;
     }
 
     // Copy the temporary buffer into the heap and free it.
-    memccpy(dsrt_simple_heap + obj.ind, later_objects, dsrt_simple_heap_size - obj.ind + 1,
+    _memccpy(dsrt_simple_heap + obj.ind, later_objects, dsrt_simple_heap_size - obj.ind + 1,
             sizeof(DSRTSimpleObject *));
     free(later_objects);
 
@@ -94,9 +101,7 @@ void dsrt_simple_del(const DSRTSimpleObject obj) {
 
         // If the reallocation fails, print an error message and exit.
         if (new_heap == NULL) {
-            fprintf(stderr, "DTL runtime error: Out of memory\n");
-            dsrt_deinit();
-            exit(1);
+            dsrt_error(DSRT_OUT_OF_MEMORY);
         }
 
         // Update the heap pointer and heap capacity.
@@ -105,7 +110,7 @@ void dsrt_simple_del(const DSRTSimpleObject obj) {
     }
 }
 
-void dsrt_simple_heap_exit(void) {
+void dsrt_simple_heap_deinit(void) {
     // Free all objects in the heap if there are any.
     if (dsrt_simple_heap_size > 0) {
         for (DSRTIndex i = dsrt_simple_heap_size - 1; i > 0; i--) {
@@ -128,7 +133,7 @@ void dsrt_term_heap_init(void) {
 
 // TODO: Implement term deleter.
 
-void dsrt_term_heap_exit(void) {
+void dsrt_term_heap_deinit(void) {
     // Free the heap.
     // TODO: Free all objects in the heap, must implement a free function first.
     free(dsrt_term_heap);

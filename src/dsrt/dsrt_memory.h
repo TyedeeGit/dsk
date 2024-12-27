@@ -10,6 +10,7 @@
 
 #pragma once
 #include "common.h"
+#include "err.h"
 
 #ifdef __cplusplus
 extern "C" {

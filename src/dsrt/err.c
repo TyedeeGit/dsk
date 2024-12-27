@@ -20,7 +20,7 @@ void dsrt_error(const DSRTErrorInfo info) {
     // Print the error message.
     fprintf(stderr, "DTL runtime error: %s\n", info.message);
 
-    if (info.can_deinit) {
+    if (dsrt_can_deinit()) {
         // Exit safely if deinitialization was possible.
         dsrt_exit(1);
     } else {
