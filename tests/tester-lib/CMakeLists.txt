@@ -23,3 +23,6 @@ add_library(tester-lib SHARED
         ComponentTester.hpp
         ComponentResults.hpp
 )
+
+find_path(TERMCOLOR_INCLUDE_DIRS "termcolor/termcolor.hpp")
+target_include_directories(tester-lib PRIVATE ${TERMCOLOR_INCLUDE_DIRS})

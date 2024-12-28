@@ -9,6 +9,7 @@
  */
 
 #include "logging.hpp"
+#include <termcolor/termcolor.hpp>
 
 namespace Logging {
     std::string to_string(const MessageType type) {
@@ -26,23 +27,21 @@ namespace Logging {
         }
     }
 
-    std::string to_color(const MessageType type) {
-        switch (type) {
-            case MessageType::INFO:
-                return RESET;
-            case MessageType::PASS:
-                return GREEN;
-            case MessageType::WARN:
-                return YELLOW;
-            case MessageType::FAIL:
-                return RED;
-            default:
-                return "";
-        }
-    }
-
 
     void log(const MessageType type, const std::string& scope, const std::string& message) {
-        std::cout << to_color(type) << "[" << to_string(type) << "] " << scope << ": " << message << RESET << std::endl;
+        switch (type) {
+            case MessageType::INFO:
+                std::cout << "[INFO] " << scope << ": " << message << std::endl;
+                return;
+            case MessageType::PASS:
+                std::cout << termcolor::green << "[PASS] " << scope << ": " << message << termcolor::reset << std::endl;
+                return;
+            case MessageType::WARN:
+                std::cout << termcolor::yellow << "[WARN] " << scope << ": " << message << termcolor::reset << std::endl;
+                return;
+            case MessageType::FAIL:
+                std::cout << termcolor::red << "[FAIL] " << scope << ": " << message << termcolor::reset << std::endl;
+                return;
+        }
     }
 }

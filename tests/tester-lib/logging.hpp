@@ -13,31 +13,6 @@
 
 namespace Logging{
     /**
-     * @brief The ANSI escape code prefix.
-     */
-    const std::string ANSI = "\033[";
-
-    /**
-     * @brief The color code for reset.
-     */
-    const std::string RESET = ANSI + "0m";
-
-    /**
-     * @brief The color code for green.
-     */
-    const std::string GREEN = ANSI + "32m";
-
-    /**
-     * @brief The color code for yellow.
-     */
-    const std::string YELLOW = ANSI + "33m";
-
-    /**
-     * @brief The color code for red.
-     */
-    const std::string RED = ANSI + "31m";
-
-    /**
      * @brief The type of message to log.
      */
     enum class MessageType {
@@ -60,14 +35,6 @@ namespace Logging{
      * @return The string representation of the message type.
      */
     std::string to_string(MessageType type);
-
-    /**
-     * @brief Converts a MessageType to a color string.
-     * @param type The type of message to convert.
-     * @return A color string in the format "\003[<color_code>m" that can be used to color the output,
-     *         or an empty string if the type is not recognized.
-     */
-    std::string to_color(MessageType type);
 
     /**
      * @brief Logs a message.
