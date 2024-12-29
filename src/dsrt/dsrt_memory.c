@@ -25,6 +25,11 @@ void dsrt_simple_heap_init(void) {
     dsrt_simple_heap_size = 0;
     dsrt_simple_heap_capacity = 1;
     dsrt_simple_heap = malloc(sizeof(DSRTSimpleObject *));
+
+    // If the allocation fails, print an error message and exit.
+    if (dsrt_simple_heap == NULL) {
+        dsrt_error(DSRT_OUT_OF_MEMORY);
+    }
 }
 
 DSRTSimpleObject dsrt_simple_new(const DSRTSimpleAllocator allocator) {
@@ -45,6 +50,7 @@ DSRTSimpleObject dsrt_simple_new(const DSRTSimpleAllocator allocator) {
 
     if (dsrt_simple_heap == NULL) {
         dsrt_error(DSRT_INVALID_HEAP);
+        return (DSRTSimpleObject) {};
     }
 
     // Push the new object onto the heap, initialize it, increment the heap size, and return the object.
@@ -68,6 +74,7 @@ void dsrt_simple_del(const DSRTSimpleObject obj) {
     // If the allocation fails, print an error message and exit.
     if (later_objects == NULL) {
         dsrt_error(DSRT_OUT_OF_MEMORY);
+        return;
     }
 
     // Actually free the object.
@@ -77,10 +84,6 @@ void dsrt_simple_del(const DSRTSimpleObject obj) {
     // Copy all objects after this one into the temporary buffer and decrement their indices.
     _memccpy(later_objects, dsrt_simple_heap + obj.ind + 1, dsrt_simple_heap_size - obj.ind + 1,
             sizeof(DSRTSimpleObject *));
-
-    if (later_objects == NULL) {
-        dsrt_error(DSRT_FAILED_COPY);
-    }
 
     for (DSRTIndex i = 0; i < dsrt_simple_heap_size - obj.ind - 1; i++) {
         later_objects[i].ind--;
@@ -127,6 +130,11 @@ void dsrt_term_heap_init(void) {
     dsrt_term_heap_size = 0;
     dsrt_term_heap_capacity = 1;
     dsrt_term_heap = malloc(sizeof(DSRTTermObject));
+
+    // If the allocation fails, print an error message and exit.
+    if (dsrt_term_heap == NULL) {
+        dsrt_error(DSRT_OUT_OF_MEMORY);
+    }
 }
 
 // TODO: Implement term constructor.
