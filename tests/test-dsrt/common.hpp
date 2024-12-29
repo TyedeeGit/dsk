@@ -8,7 +8,6 @@
 
 #pragma once
 #include "../tester-lib/all.hpp"
-#include "../../src/dsrt/main.h"
 
 /**
  * @brief Namespace for the DSRT tester.

@@ -7,6 +7,8 @@
  */
 
 #include "abi.h"
+#include "err.h"
+#include <string.h>
 
 DSRTBuffer dsrt_alloc_buffer(const DSRTSize size) {
     // Allocate the buffer.

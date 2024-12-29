@@ -6,7 +6,10 @@
  * @brief Implementation of DSRT error handling.
  */
 
+#include "common.h"
 #include "err.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 void dsrt_exit(const int code) {
     // Deinitialize the DTL runtime.

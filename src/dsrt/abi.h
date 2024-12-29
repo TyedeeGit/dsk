@@ -8,7 +8,8 @@
 
 #pragma once
 #include "common.h"
-#include "err.h"
+#include <stdbool.h>
+#include <stdlib.h>
 
 #if defined(_MSC_VER)
     #define SWAP_UINT16(val) _byteswap_ushort(val)
@@ -151,7 +152,10 @@ typedef int16_t DSRTInt16;
  * @param value The integer to ensure the endianness of.
  * @return A 16-bit signed integer with the correct endianness.
  */
-inline DSRTInt16 dsrt_ensure_int16(const DSRTInt16 value) { if (dsrt_is_little_endian()) return value; else return SWAP_INT16(value); }
+inline DSRTInt16 dsrt_ensure_int16(const DSRTInt16 value) {
+    if (dsrt_is_little_endian()) return value;
+    return SWAP_INT16(value);
+}
 
 /**
  * @brief 32-bit signed integer.
@@ -163,7 +167,10 @@ typedef int32_t DSRTInt32;
  * @param value The integer to ensure the endianness of.
  * @return A 32-bit signed integer with the correct endianness.
  */
-inline DSRTInt32 dsrt_ensure_int32(const DSRTInt32 value) { if (dsrt_is_little_endian()) return value; else return SWAP_INT32(value); }
+inline DSRTInt32 dsrt_ensure_int32(const DSRTInt32 value) {
+    if (dsrt_is_little_endian()) return value;
+    return SWAP_INT32(value);
+}
 
 /**
  * @brief 64-bit signed integer.
@@ -175,7 +182,10 @@ typedef int64_t DSRTInt64;
  * @param value The integer to ensure the endianness of.
  * @return A 64-bit signed integer with the correct endianness.
  */
-inline DSRTInt64 dsrt_ensure_int64(const DSRTInt64 value) { if (dsrt_is_little_endian()) return value; else return SWAP_INT64(value); }
+inline DSRTInt64 dsrt_ensure_int64(const DSRTInt64 value) {
+    if (dsrt_is_little_endian()) return value;
+    return SWAP_INT64(value);
+}
 
 
 /**
@@ -257,7 +267,10 @@ typedef uint16_t DSRTNat16;
  * @param value The integer to ensure the endianness of.
  * @return A 16-bit unsigned integer with the correct endianness.
  */
-inline DSRTNat16 dsrt_ensure_nat16(const DSRTNat16 value) { if (dsrt_is_little_endian()) return value; else return SWAP_UINT16(value); }
+inline DSRTNat16 dsrt_ensure_nat16(const DSRTNat16 value) {
+    if (dsrt_is_little_endian()) return value;
+    return SWAP_UINT16(value);
+}
 
 /**
  * @brief 32-bit unsigned integer.
@@ -269,7 +282,10 @@ typedef uint32_t DSRTNat32;
  * @param value The integer to ensure the endianness of.
  * @return A 32-bit unsigned integer with the correct endianness.
  */
-inline DSRTNat32 dsrt_ensure_nat32(const DSRTNat32 value) { if (dsrt_is_little_endian()) return value; else return SWAP_UINT32(value); }
+inline DSRTNat32 dsrt_ensure_nat32(const DSRTNat32 value) {
+    if (dsrt_is_little_endian()) return value;
+    return SWAP_UINT32(value);
+}
 
 /**
  * @brief 64-bit unsigned integer.
@@ -281,7 +297,10 @@ typedef uint64_t DSRTNat64;
  * @param value The integer to ensure the endianness of.
  * @return A 64-bit unsigned integer with the correct endianness.
  */
-inline DSRTNat64 dsrt_ensure_nat64(const DSRTNat64 value) { if (dsrt_is_little_endian()) return value; else return SWAP_UINT64(value); }
+inline DSRTNat64 dsrt_ensure_nat64(const DSRTNat64 value) {
+    if (dsrt_is_little_endian()) return value;
+    return SWAP_UINT64(value);
+}
 
 
 /**
@@ -350,7 +369,10 @@ typedef float  DSRTFloat32;
  * @param value The floating point number to ensure the endianness of.
  * @return A 32-bit floating point number with the correct endianness.
  */
-inline DSRTFloat32 dsrt_ensure_float32(const DSRTFloat32 value) { if (dsrt_is_little_endian()) return value; else return SWAP_FLOAT32(value); }
+inline DSRTFloat32 dsrt_ensure_float32(const DSRTFloat32 value) {
+    if (dsrt_is_little_endian()) return value;
+    return SWAP_FLOAT32(value);
+}
 
 /**
  * @brief 64-bit floating point type.
@@ -362,7 +384,10 @@ typedef double DSRTFloat64;
  * @param value The floating point number to ensure the endianness of.
  * @return A 64-bit floating point number with the correct endianness.
  */
-inline DSRTFloat64 dsrt_ensure_float64(const DSRTFloat64 value) { if (dsrt_is_little_endian()) return value; else return SWAP_FLOAT64(value); }
+inline DSRTFloat64 dsrt_ensure_float64(const DSRTFloat64 value) {
+    if (dsrt_is_little_endian()) return value;
+    return SWAP_FLOAT64(value);
+}
 
 /**
  * @brief Unpack a 32-bit floating point number from a buffer.
@@ -392,6 +417,8 @@ DSRTFloat64 dsrt_unpack_float64(DSRTSeeker *seeker);
  */
 void dsrt_pack_float64(DSRTSeeker *seeker, DSRTFloat64 value);
 
+
+struct DSRTCTypeDescriptor_;
 
 /**
  * @brief The width of a simple type.
@@ -506,7 +533,7 @@ typedef struct {
     /**
      * @brief The type of the elements in the array.
      */
-    struct DSRTCTypeDescriptorStruct *element_type;
+    struct DSRTCTypeDescriptor_ *element_type;
 } DSRTCTypeDescriptorArray;
 
 /**
@@ -521,13 +548,13 @@ typedef struct {
     /**
      * @brief The types of the elements in the struct.
      */
-    struct DSRTCTypeDescriptorStruct *element_types;
+    struct DSRTCTypeDescriptor_ *element_types;
 } DSRTCTypeDescriptorStruct;
 
 /**
  * @brief A complex type descriptor.
  */
-typedef struct DSRTCTypeDescriptorStruct {
+typedef struct DSRTCTypeDescriptor_ {
     /**
      * @brief The type of the complex type descriptor.
      */

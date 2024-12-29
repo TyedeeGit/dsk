@@ -7,6 +7,11 @@
  */
 
 #include "main.hpp"
+#include "common.hpp"
+#include "../../src/dsrt/dsrt_memory.h"
+#include "../../src/dsrt/err.h"
+
+#include "DSRTTester.hpp"
 
 
 int main() {
