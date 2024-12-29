@@ -29,7 +29,13 @@ typedef enum {
      * @details An unsound error is raised when the DSRT has encountered an
      * invalid program.
      */
-    DSRT_UNSOUND_ERROR = 1
+    DSRT_UNSOUND_ERROR = 1,
+
+    /**
+     * @brief ABI error.
+     * @details An ABI error is raised when invalid ABI calls are made.
+     */
+    DSRT_ABI_ERROR    = 2
 } DSRTErrorType;
 
 /**
@@ -49,8 +55,12 @@ typedef struct {
 } DSRTErrorInfo;
 
 static const DSRTErrorInfo DSRT_OUT_OF_MEMORY = {DSRT_MEMORY_ERROR, "Out of memory!"};
-static const DSRTErrorInfo DSRT_FAILED_COPY = {DSRT_MEMORY_ERROR, "Failed to copy objects!"};
+static const DSRTErrorInfo DSRT_BAD_SIZE_ARG = {DSRT_MEMORY_ERROR, "Invalid size argument!"};
 static const DSRTErrorInfo DSRT_INVALID_HEAP = {DSRT_MEMORY_ERROR, "Invalid heap!"};
+static const DSRTErrorInfo DSRT_NULL_POINTER = {DSRT_MEMORY_ERROR, "Null pointer passed as argument!"};
+
+static const DSRTErrorInfo DSRT_BAD_CTYPE = {DSRT_ABI_ERROR, "Invalid ctype descriptor!"};
+static const DSRTErrorInfo DSRT_FAILED_UNPACK = {DSRT_UNSOUND_ERROR, "Failed to unpack object!"};
 
 #ifndef __cplusplus
 /**

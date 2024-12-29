@@ -14,12 +14,14 @@
 #include <cstdbool>
 #include <cstdlib>
 #include <cstdio>
+#include <cstdint>
 #else
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <memory.h>
 #include <string.h>
+#include <stdint.h>
 #endif
 
 #ifdef __cplusplus
