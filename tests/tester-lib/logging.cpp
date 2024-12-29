@@ -34,10 +34,10 @@ namespace Logging {
                 std::cout << "[INFO] " << scope << ": " << message << std::endl;
                 return;
             case MessageType::PASS:
-                std::cout << termcolor::green << "[PASS] " << scope << ": " << message << termcolor::reset << std::endl;
+                std::cout << termcolor::bright_green << "[PASS] " << scope << ": " << message << termcolor::reset << std::endl;
                 return;
             case MessageType::WARN:
-                std::cout << termcolor::yellow << "[WARN] " << scope << ": " << message << termcolor::reset << std::endl;
+                std::cout << termcolor::bright_yellow << "[WARN] " << scope << ": " << message << termcolor::reset << std::endl;
                 return;
             case MessageType::FAIL:
                 std::cout << termcolor::red << "[FAIL] " << scope << ": " << message << termcolor::reset << std::endl;
