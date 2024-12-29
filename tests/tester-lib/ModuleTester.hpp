@@ -8,7 +8,6 @@
 
 #pragma once
 #include "common.hpp"
-#include "logging.hpp"
 
 #include "UnitTester.hpp"
 #include "ModuleResults.hpp"
@@ -23,18 +22,18 @@ namespace TesterLib {
              * @brief Gets the tests in this module.
              * @return The tests in this module.
              */
-            virtual std::vector<UnitTester *> get_tests() const = 0;
+            [[nodiscard]] virtual std::vector<UnitTester *> get_tests() const = 0;
             /**
              * @brief Gets the name of the module.
              * @return The name of the module.
              */
-            virtual std::string get_module_name() const = 0;
+            [[nodiscard]] virtual std::string get_module_name() const = 0;
 
             /**
              * @brief Gets the name of the component.
              * @return The name of the component.
              */
-            virtual std::string get_component_name() const = 0;
+            [[nodiscard]] virtual std::string get_component_name() const = 0;
         public:
             /**
              * @brief Constructor.
@@ -45,7 +44,7 @@ namespace TesterLib {
              * @brief Gets the full name of the module.
              * @return The full name of the module.
              */
-            std::string get_full_name() const override {
+            [[nodiscard]] std::string get_full_name() const override {
                 return get_component_name() + "." + get_module_name();
             }
 
@@ -53,7 +52,7 @@ namespace TesterLib {
              * @brief Gets the name of the module.
              * @return The name of the module.
              */
-            std::string get_name() const override {
+            [[nodiscard]] std::string get_name() const override {
                 return get_module_name();
             }
 
@@ -64,7 +63,7 @@ namespace TesterLib {
              * and runs each test, logging the start of each test, and adding the results of each
              * test to the module's results.  Finally, it returns the module's results.
              */
-            ModuleResults test_all() const;
+            [[nodiscard]] ModuleResults test_all() const;
     };
 
 } // TesterLib

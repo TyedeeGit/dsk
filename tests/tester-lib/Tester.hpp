@@ -26,13 +26,13 @@ namespace TesterLib {
              * @brief Gets the name of the tester.
              * @return The name.
              */
-            virtual std::string get_name() const = 0;
+            [[nodiscard]] virtual std::string get_name() const = 0;
 
             /**
              * @brief Gets the fully qualified name of the tester.
              * @return The fully qualified name.
              */
-            virtual std::string get_full_name() const = 0;
+            [[nodiscard]] virtual std::string get_full_name() const = 0;
     };
 
 } // TesterLib

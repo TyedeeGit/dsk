@@ -41,7 +41,6 @@ namespace Logging {
                 return;
             case MessageType::FAIL:
                 std::cout << termcolor::red << "[FAIL] " << scope << ": " << message << termcolor::reset << std::endl;
-                return;
         }
     }
 }

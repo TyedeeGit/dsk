@@ -8,6 +8,8 @@
 
 #include "ComponentTester.hpp"
 
+#include "logging.hpp"
+
 namespace TesterLib {
     ComponentResults ComponentTester::test_all() const {
         // Log the start of the tests.

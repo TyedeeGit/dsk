@@ -7,6 +7,7 @@
  */
 
 #include "ModuleTester.hpp"
+#include "logging.hpp"
 
 namespace TesterLib {
     ModuleResults ModuleTester::test_all() const {
