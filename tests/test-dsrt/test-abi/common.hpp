@@ -3,10 +3,12 @@
  *
  * @file common.hpp
  * @author Gianmarco Lenzi
- * @brief Common header for the DSRT tester.
+ * @brief Common header for the ABI tester.
  */
 
 #pragma once
 #include "../common.hpp"
-#include "../test-memory/all.hpp"
-#include "../test-abi/all.hpp"
+
+namespace TestDSRT::TestABI {
+    const std::string module_name = "abi";
+} // TestDSRT::TestABI

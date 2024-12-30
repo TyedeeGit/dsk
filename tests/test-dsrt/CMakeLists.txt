@@ -18,8 +18,15 @@ add_executable(test-dsrt
         test-dsrt/MemoryTester.hpp
         test-dsrt/common.hpp
         test-dsrt/all.hpp
-        DSRTTester.hpp)
+        DSRTTester.hpp
+        test-abi/common.hpp
+        test-abi/all.hpp
+        test-abi/PackUnpack.cpp
+        test-abi/PackUnpack.hpp
+        test-dsrt/ABITester.hpp
+)
 
 target_link_libraries(test-dsrt PRIVATE
         dsrt
-        tester-lib)
+        tester-lib
+)

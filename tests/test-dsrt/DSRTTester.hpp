@@ -18,7 +18,8 @@ namespace TestDSRT {
         protected:
             [[nodiscard]] std::vector<ModuleTester *> get_modules() const override {
                 return {
-                    new TestMemory::MemoryTester()
+                    new TestMemory::MemoryTester(),
+                    new TestABI::ABITester(),
                 };
             }
 
