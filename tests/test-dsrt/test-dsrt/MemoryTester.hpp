@@ -15,17 +15,17 @@ namespace TestDSRT::TestMemory {
      */
     class MemoryTester final : public ModuleTester {
         protected:
-            std::vector<UnitTester *> get_tests() const override {
+            [[nodiscard]] std::vector<UnitTester *> get_tests() const override {
                 return {
                     new SimpleSingle()
                 };
             }
 
-            std::string get_module_name() const override {
+            [[nodiscard]] std::string get_module_name() const override {
                 return module_name;
             }
 
-            std::string get_component_name() const override {
+            [[nodiscard]] std::string get_component_name() const override {
                 return component_name;
             }
     };

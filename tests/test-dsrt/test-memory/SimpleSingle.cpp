@@ -7,6 +7,7 @@
  */
 
 #include "SimpleSingle.hpp"
+#include "../../../src/dsrt/dsrt_memory.h"
 
 namespace TestDSRT::TestMemory {
     void SimpleSingle::run() const {

@@ -10,17 +10,7 @@
 
 #pragma once
 
-#ifdef __cplusplus
-#include <cstdbool>
-#include <cstdlib>
-#include <cstdio>
-#include <cstdint>
-#else
-#include <stdbool.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <memory.h>
-#include <string.h>
+#ifndef __cplusplus
 #include <stdint.h>
 #endif
 

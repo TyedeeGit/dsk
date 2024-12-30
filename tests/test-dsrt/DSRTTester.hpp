@@ -16,13 +16,13 @@ namespace TestDSRT {
      */
     class DSRTTester final : public ComponentTester {
         protected:
-            std::vector<ModuleTester *> get_modules() const override {
+            [[nodiscard]] std::vector<ModuleTester *> get_modules() const override {
                 return {
                     new TestMemory::MemoryTester()
                 };
             }
 
-            std::string get_component_name() const override {
+            [[nodiscard]] std::string get_component_name() const override {
                 return component_name;
             }
     };

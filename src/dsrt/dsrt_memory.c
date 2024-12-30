@@ -9,6 +9,10 @@
  */
 
 #include "dsrt_memory.h"
+#include "err.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 DSRTSize dsrt_simple_get_alloc_size(const DSRTSimpleAllocator allocator) {
     return allocator.is_array
@@ -82,7 +86,7 @@ void dsrt_simple_del(const DSRTSimpleObject obj) {
     free(dsrt_simple_heap[obj.ind]);
 
     // Copy all objects after this one into the temporary buffer and decrement their indices.
-    _memccpy(later_objects, dsrt_simple_heap + obj.ind + 1, dsrt_simple_heap_size - obj.ind + 1,
+    _memccpy(later_objects, dsrt_simple_heap + obj.ind + 1, dsrt_simple_heap_size - obj.ind + 1, // NOLINT(*-narrowing-conversions)
             sizeof(DSRTSimpleObject *));
 
     for (DSRTIndex i = 0; i < dsrt_simple_heap_size - obj.ind - 1; i++) {
@@ -90,7 +94,7 @@ void dsrt_simple_del(const DSRTSimpleObject obj) {
     }
 
     // Copy the temporary buffer into the heap and free it.
-    _memccpy(dsrt_simple_heap + obj.ind, later_objects, dsrt_simple_heap_size - obj.ind + 1,
+    _memccpy(dsrt_simple_heap + obj.ind, later_objects, dsrt_simple_heap_size - obj.ind + 1, // NOLINT(*-narrowing-conversions)
             sizeof(DSRTSimpleObject *));
     free(later_objects);
 
