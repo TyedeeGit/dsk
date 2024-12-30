@@ -11,6 +11,10 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if defined(_MSC_VER)
     #define SWAP_UINT16(val) _byteswap_ushort(val)
     #define SWAP_UINT32(val) _byteswap_ulong(val)
@@ -597,4 +601,6 @@ DSRTCTypeDescriptor dsrt_unpack_ctype_descriptor(DSRTSeeker *seeker);
  */
 void dsrt_pack_ctype_descriptor(DSRTSeeker *seeker, DSRTCTypeDescriptor ctype_descriptor);
 
-
+#ifdef __cplusplus
+}
+#endif
