@@ -64,6 +64,12 @@ namespace TesterLib {
              * test to the module's results.  Finally, it returns the module's results.
              */
             [[nodiscard]] ModuleResults test_all() const;
+
+            /**
+             * @brief Gets the total number of tests in the module.
+             * @return The total number of tests in the module.
+             */
+            [[nodiscard]] unsigned get_total_tests() const { return this->get_tests().size(); }
     };
 
 } // TesterLib

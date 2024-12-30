@@ -56,5 +56,23 @@ namespace TesterLib {
              * @return The results of all the tests.
              */
             [[nodiscard]] ComponentResults test_all() const;
+
+            /**
+             * @brief Gets the total number of modules in the component.
+             * @return The total number of modules in the component.
+             */
+            [[nodiscard]] unsigned get_total_modules() const { return this->get_modules().size(); }
+
+            /**
+             * @brief Gets the total number of tests in the component.
+             * @return The total number of tests in the component.
+             */
+            [[nodiscard]] unsigned get_total_tests() const {
+                unsigned total = 0;
+                for (const auto &module : this->get_modules()) {
+                    total += module->get_total_tests();
+                }
+                return total;
+            }
     };
 } // TesterLib
