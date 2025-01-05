@@ -29,7 +29,12 @@ namespace TestDSRT::TestABI {
 
         // Check the copied data.
         for (DSRTIndex i = 0; i < end - start; i++) {
+            // Get the expected value.
             const DSRTNat32 expected = test_vals[start + i];
+
+            // Seek to the correct position.
+            dsrt_seeker_goto(&dest_seeker, i * sizeof(DSRTNat32));
+
             if (const DSRTNat32 actual = dsrt_unpack_nat32(&dest_seeker); expected != actual) {
                 logger.fail("Failed to copy section from array, expected " + std::to_string(expected) + " but got " +
                      std::to_string(actual) + " at index " + std::to_string(i) + ".");
