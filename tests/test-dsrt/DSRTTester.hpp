@@ -8,23 +8,37 @@
 
 #pragma once
 #include "common.hpp"
-#include "test-dsrt/all.hpp"
+#include "test-abi/common.hpp"
+#include "test-memory/common.hpp"
 
 namespace TestDSRT {
     /**
      * @brief Class for DSRT tester.
      */
     class DSRTTester final : public ComponentTester {
+        private:
+            inline static const TestList tests = {
+                {TestMemory::module_name, TestMemory::tests},
+                {TestABI::module_name, TestABI::tests}
+            };
         protected:
-            [[nodiscard]] std::vector<ModuleTester *> get_modules() const override {
-                return {
-                    new TestMemory::MemoryTester(),
-                    new TestABI::ABITester(),
-                };
+            TestList get_tests() const override {
+                return tests;
+            }
+        public:
+            DSRTTester() : ComponentTester({}) {
+                TestNameList test_name_list;
+
+                for (const auto &[module_name, module_tests] : get_tests()) {
+                    for (const auto &test_name: module_tests | std::views::keys) {
+                        test_name_list[module_name].push_back(test_name);
+                    }
+                }
+
+                this->results = Results{test_name_list};
+                this->test_info = TestInfo{std::move(test_name_list)};
             }
 
-            [[nodiscard]] std::string get_component_name() const override {
-                return component_name;
-            }
+            const String &get_name() const override { return component_name; }
     };
 } // TestDSRT

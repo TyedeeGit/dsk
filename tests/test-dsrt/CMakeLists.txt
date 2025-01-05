@@ -11,19 +11,12 @@ add_executable(test-dsrt
         main.cpp
         main.hpp
         common.hpp
-        test-memory/common.hpp
-        test-memory/all.hpp
-        test-memory/SimpleSingle.cpp
-        test-memory/SimpleSingle.hpp
-        test-dsrt/MemoryTester.hpp
-        test-dsrt/common.hpp
-        test-dsrt/all.hpp
         DSRTTester.hpp
+        test-memory/common.hpp
+        test-memory/simple_single.cpp
         test-abi/common.hpp
-        test-abi/all.hpp
-        test-abi/PackUnpack.cpp
-        test-abi/PackUnpack.hpp
-        test-dsrt/ABITester.hpp
+        test-abi/array_copy.cpp
+        test-abi/pack_unpack.cpp
 )
 
 target_link_libraries(test-dsrt PRIVATE

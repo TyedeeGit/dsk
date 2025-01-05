@@ -18,12 +18,9 @@ int main() {
     // Initialize DSRT.
     dsrt_init();
 
-    // Initialize the tester.
-    const TestDSRT::DSRTTester tester;
-
-    // Run the tests
-    const TesterLib::ComponentResults results = tester.test_all();
+    auto tester = TestDSRT::DSRTTester();
+    tester.run_tests();
 
     // Safely exit.
-    dsrt_exit(results.get_passed_tests() == results.get_total_tests() ? 0 : 1);
+    dsrt_exit(tester.get_results().did_pass() ? 0 : 1);
 }

@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2024-2025 Gianmarco Lenzi
  *
- * @file PackUnpack.cpp
+ * @file pack_unpack.cpp
  * @author Gianmarco Lenzi
  * @brief 
  */
 
-#include "PackUnpack.hpp"
+#include "common.hpp"
 #include "../../../src/dsrt/abi.h"
 
 namespace TestDSRT::TestABI {
-    void PackUnpack::run() const {
+    void pack_unpack(const TestLogger &logger) {
         const DSRTBuffer buffer = dsrt_alloc_buffer(100);
         DSRTSeeker reader = dsrt_seeker_new(buffer);
         DSRTSeeker writer = dsrt_seeker_new(buffer);
@@ -24,7 +24,7 @@ namespace TestDSRT::TestABI {
         if (dsrt_unpack_int8(&reader) != int8) {
             // If unpacking does not get the same value, free the buffer and fail.
             dsrt_free_buffer(buffer);
-            this->fail("Failed to unpack int8.");
+            logger.fail("Failed to unpack int8.");
             return;
         }
 
@@ -37,7 +37,7 @@ namespace TestDSRT::TestABI {
         if (dsrt_unpack_int16(&reader) != int16) {
             // If unpacking does not get the same value, free the buffer and fail.
             dsrt_free_buffer(buffer);
-            this->fail("Failed to unpack int16.");
+            logger.fail("Failed to unpack int16.");
             return;
         }
 
@@ -49,7 +49,7 @@ namespace TestDSRT::TestABI {
         if (dsrt_unpack_int32(&reader) != int32) {
             // If unpacking does not get the same value, free the buffer and fail.
             dsrt_free_buffer(buffer);
-            this->fail("Failed to unpack int32.");
+            logger.fail("Failed to unpack int32.");
             return;
         }
 
@@ -62,7 +62,7 @@ namespace TestDSRT::TestABI {
         if (dsrt_unpack_int64(&reader) != int64) {
             // If unpacking does not get the same value, free the buffer and fail.
             dsrt_free_buffer(buffer);
-            this->fail("Failed to unpack int64.");
+            logger.fail("Failed to unpack int64.");
             return;
         }
 
@@ -75,7 +75,7 @@ namespace TestDSRT::TestABI {
         if (dsrt_unpack_nat8(&reader) != nat8) {
             // If unpacking does not get the same value, free the buffer and fail.
             dsrt_free_buffer(buffer);
-            this->fail("Failed to unpack nat8.");
+            logger.fail("Failed to unpack nat8.");
             return;
         }
 
@@ -88,7 +88,7 @@ namespace TestDSRT::TestABI {
         if (dsrt_unpack_nat16(&reader) != nat16) {
             // If unpacking does not get the same value, free the buffer and fail.
             dsrt_free_buffer(buffer);
-            this->fail("Failed to unpack nat16.");
+            logger.fail("Failed to unpack nat16.");
             return;
         }
 
@@ -101,7 +101,7 @@ namespace TestDSRT::TestABI {
         if (dsrt_unpack_nat32(&reader) != nat32) {
             // If unpacking does not get the same value, free the buffer and fail.
             dsrt_free_buffer(buffer);
-            this->fail("Failed to unpack nat32.");
+            logger.fail("Failed to unpack nat32.");
             return;
         }
 
@@ -114,7 +114,7 @@ namespace TestDSRT::TestABI {
         if (dsrt_unpack_nat64(&reader) != nat64) {
             // If unpacking does not get the same value, free the buffer and fail.
             dsrt_free_buffer(buffer);
-            this->fail("Failed to unpack nat64.");
+            logger.fail("Failed to unpack nat64.");
             return;
         }
 
@@ -127,7 +127,7 @@ namespace TestDSRT::TestABI {
         if (dsrt_unpack_float32(&reader) != float32) {
             // If unpacking does not get the same value, free the buffer and fail.
             dsrt_free_buffer(buffer);
-            this->fail("Failed to unpack float32.");
+            logger.fail("Failed to unpack float32.");
             return;
         }
 
@@ -140,11 +140,13 @@ namespace TestDSRT::TestABI {
         if (dsrt_unpack_float64(&reader) != float64) {
             // If unpacking does not get the same value, free the buffer and fail.
             dsrt_free_buffer(buffer);
-            this->fail("Failed to unpack float64.");
+            logger.fail("Failed to unpack float64.");
             return;
         }
 
         dsrt_free_buffer(buffer);
+
+        logger.pass();
     }
 
 } // TestDSRT::TestABI

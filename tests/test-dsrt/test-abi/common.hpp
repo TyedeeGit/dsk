@@ -10,5 +10,14 @@
 #include "../common.hpp"
 
 namespace TestDSRT::TestABI {
-    const std::string module_name = "abi";
+    const String module_name = "abi";
+
+    void pack_unpack(const TestLogger &logger);
+
+    void array_copy(const TestLogger &logger);
+
+    inline ModuleTests tests = {
+        {"pack_unpack", &pack_unpack},
+        {"array_copy", &array_copy}
+    };
 } // TestDSRT::TestABI
