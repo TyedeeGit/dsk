@@ -12,16 +12,12 @@ add_library(tester-lib SHARED
         common.hpp
         logging.cpp
         logging.hpp
-        Tester.cpp
-        Tester.hpp
-        UnitTester.hpp
-        TestResults.hpp
-        ModuleResults.hpp
-        ModuleTester.cpp
-        ModuleTester.hpp
         ComponentTester.cpp
         ComponentTester.hpp
-        ComponentResults.hpp
+        Results.hpp
+        TestInfo.hpp
+        TestLogger.hpp
+        Results.cpp
 )
 
 find_path(TERMCOLOR_INCLUDE_DIRS "termcolor/termcolor.hpp")

@@ -10,13 +10,10 @@
 #include "common.hpp"
 #include "logging.hpp"
 
-#include "Tester.hpp"
-
-#include "UnitTester.hpp"
-#include "TestResults.hpp"
-
-#include "ModuleTester.hpp"
-#include "ModuleResults.hpp"
-
 #include "ComponentTester.hpp"
-#include "ComponentResults.hpp"
+
+#include "TestInfo.hpp"
+#include "Results.hpp"
+#include "TestLogger.hpp"
+
+

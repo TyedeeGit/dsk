@@ -1,5 +1,7 @@
 /**
  * Copyright (C) 2024-2025 Gianmarco Lenzi
+ * Licensed under MIT as part of the DSK project, see LICENSE file for details.
+ * A copy of the license can be found at: https://opensource.org/licenses/MIT.
  *
  * @file ComponentTester.cpp
  * @author Gianmarco Lenzi
@@ -7,83 +9,130 @@
  */
 
 #include "ComponentTester.hpp"
-#include <iomanip>
-#include <ranges>
+#include "TestLogger.hpp"
 
-#include "logging.hpp"
+#include <iomanip>
 #include <sstream>
 
 namespace TesterLib {
-    ComponentResults ComponentTester::test_all() const {
-        // Log amount of modules.
-        Logging::log_info(this->get_full_name(), "Total component modules: " + std::to_string(this->get_total_modules()));
+    /**
+     * @brief Runs the tests in this component and logs the results.
+     */
+    void ComponentTester::run_tests() {
+        // Count total tests and modules
+        const unsigned total_tests = test_info.get_global_total();
+        const unsigned total_modules = test_info.get_total_modules();
 
-        // Log amount of tests.
-        Logging::log_info(this->get_full_name(), "Total component tests: " + std::to_string(this->get_total_tests()));
+        // Log that we are running the tests in this component
+        Logging::log_info(get_name(), "Running " + std::to_string(total_tests) + " component test(s) across " + std::to_string(total_modules) + " module(s)...");
 
-        // Log the start of the tests.
-        Logging::log_info(this->get_full_name(), "Running component tests...");
+        for (const auto &[module_name, module_test_names] : test_info.get_tests()) {
+            // Define the module scope and count total module tests
+            const auto module_scope = get_name() + "." + module_name;
+            const unsigned total_module_tests = test_info.get_module_total(module_name);
 
-        // Initialize the results.
-        ComponentResults results;
+            // Log that we are running the tests in this module
+            Logging::log_info(module_scope, "Running " + std::to_string(total_module_tests) + " module test(s)...");
 
-        // Run all the modules.
-        for (const auto &module : this->get_modules()) {
-            results.add_module(module->get_full_name(), module->test_all());
+            for (const auto &test_name : module_test_names) {
+                // Define the test scope
+                const auto test_scope = module_scope + "." + test_name;
 
-            // Delete the module.
-            delete module;
-        }
+                // Log that we are running this test
+                Logging::log_info(test_scope, "Running test...");
 
-        // Log the end of the tests.
-        Logging::log_info(this->get_full_name(), "Component tests completed!");
+                // Run the test
+                get_tests()[module_name][test_name]({get_name(), module_name, test_name, results});
 
-        if (results.get_passed_modules() == results.get_total_modules()) {
-            // If all the modules passed, log a celebration message.
-            Logging::log_pass(this->get_full_name(), "All " + std::to_string(results.get_passed_modules()) + " module(s) passed! :D :D :D");
-        } else {
-            // Otherwise, log an informative failure message.
-            std::stringstream failure_message;
-            failure_message << std::fixed << std::setprecision(1) << "Only " << 100.0 * results.get_passed_modules() /
-                    results.get_total_modules() << "%(" << results.get_passed_modules() << "/" << results.
-                    get_total_modules() << ") passed. :(";
-            Logging::log_fail(this->get_full_name(), failure_message.str());
-        }
-
-        if (results.get_warnings().empty()) {
-            // If there are no warnings, log a happy message.
-            Logging::log_pass(this->get_full_name(), "No warnings raised! :)");
-        } else {
-            // Otherwise, log an informative message.
-            std::stringstream warning_message;
-            unsigned total_warnings = 0;
-            unsigned total_tests_with_warnings = 0;
-            unsigned total_modules_with_warnings = 0;
-
-            for (const auto &[module_name, module_warnings] : results.get_warnings()) {
-                if (!module_warnings.empty()) {
-                    // If the module has warnings, add them to the count of modules with warnings.
-                    total_modules_with_warnings++;
-                }
-
-                for (const auto &test_warnings: module_warnings | std::views::values) {
-                    if (!test_warnings.empty()) {
-                        // If the test has warnings, add them to the count of tests with warnings.
-                        total_tests_with_warnings++;
-                    }
-
-                    // Add the number of warnings raised by the test to the total.
-                    total_warnings += test_warnings.size();
+                if (const unsigned total_test_warnings = results.get_total_test_warnings(module_name, test_name); total_test_warnings > 0) {
+                    // If the test finished with warnings, log that.
+                    Logging::log_info(test_scope, "Test finished with " + std::to_string(total_test_warnings) + " warning(s).");
+                } else {
+                    // Otherwise, log that the test finished with no warnings.
+                    Logging::log_info(test_scope, "Test finished with no warnings.");
                 }
             }
 
-            warning_message << total_warnings << " warning(s) raised by " << total_tests_with_warnings <<
-                    " test(s) across " << total_modules_with_warnings << " module(s).";
-            Logging::log_warn(this->get_full_name(), warning_message.str());
+            if (const unsigned total_module_failures = results.get_total_module_failures(module_name); total_module_failures > 0) {
+                // Create a failure message stream
+                std::stringstream failure_message_stream{""};
+
+                // Get the pass rate
+                const double pass_rate = static_cast<double>(total_module_tests - total_module_failures) / total_module_tests * 100.0;
+
+                // ```
+                // Module finished with {total_module_failures} failures out of {total_module_tests} test(s).
+                // {pass_rate}%({total_module_tests - total_module_failures}/{total_module_tests}) pass rate. :(
+                // ```
+                failure_message_stream << "Module finished with " << total_module_failures << " failures out of " <<
+                    total_module_tests << " test(s). " << std::fixed << std::setprecision(1) << pass_rate << "%(" <<
+                        total_module_tests - total_module_failures << "/" << total_module_tests << ") pass rate. :(";
+
+                // Log the failure message
+                Logging::log_fail(module_scope, failure_message_stream.str());
+            } else {
+                // Log that all tests in the module passed
+                Logging::log_pass(module_scope, "All tests in module passed! :D");
+            }
+
+            if (const unsigned total_module_warnings = results.get_total_module_warnings(module_name); total_module_warnings > 0) {
+                // If the module finished with warnings, log that.
+                Logging::log_info(module_scope, "Module finished with " + std::to_string(total_module_warnings) + " warning(s).");
+            } else {
+                // Otherwise, log that the module finished with no warnings.
+                Logging::log_info(module_scope, "Module finished with no warnings.");
+            }
         }
 
-        // Return the results.
-        return results;
-    }
+        // Count total failures
+        const unsigned total_failures = results.get_total_failures();
 
+        if (total_failures > 0) {
+            // Create a failure message stream
+            std::stringstream failure_message_stream{""};
+            // ```
+            // Component finished with {total_failures} failed test(s) out of {total_tests} test(s) and
+            // {results.get_total_failed_modules()} failed module(s) out of {total_modules} modules(s).
+            // ```
+            failure_message_stream << "Component finished with " << total_failures << " failed test(s) out of " <<
+                    total_tests << " test(s) and " << results.get_total_failed_modules() << " failed module(s) out of " <<
+                        total_modules << " modules(s). :(";
+
+            // Log the failure message
+            Logging::log_fail(get_name(), failure_message_stream.str());
+        } else {
+            // Log that all tests in the component passed
+            Logging::log_pass(get_name(), "All tests in component passed! :D :D :D");
+        }
+
+        // Create a pass rate stream
+        std::stringstream pass_rate_stream{""};
+
+        // Calculate the test and module pass rate
+        const double test_pass_rate = static_cast<double>(total_tests - total_failures) / total_tests * 100.0;
+        const double module_pass_rate = static_cast<double>(total_modules - results.get_total_failed_modules()) /
+                                        total_modules * 100.0;
+
+        // ```
+        // Component finished with {total_failures} failed test(s) out of {total_tests} test(s) and
+        // {results.get_total_failed_modules()} failed module(s) out of {total_modules} modules(s).
+        // {test_pass_rate}%({total_tests - total_failures}/{total_tests}) test pass rate and
+        // {module_pass_rate}%({total_modules - results.get_total_failed_modules()}/{total_modules}) module pass rate.
+        // ```
+        pass_rate_stream << std::fixed << std::setprecision(1) << test_pass_rate << "%(" <<
+                            total_tests - total_failures << "/" << total_tests << ") test pass rate and " <<
+                                module_pass_rate << "%(" << total_modules - results.get_total_failed_modules() << "/" <<
+                                    total_modules << ") module pass rate.";
+
+        // Log the pass rates
+        Logging::log_info(get_name(), pass_rate_stream.str());
+
+        if (const unsigned total_warnings = results.get_total_warnings(); total_warnings > 0) {
+            // If the component finished with warnings, log that.
+            Logging::log_info(get_name(), "Component finished with " + std::to_string(total_warnings) + " warning(s).");
+        } else {
+            // Otherwise, log that the component finished with no warnings.
+            Logging::log_info(get_name(), "Component finished with no warnings.");
+        }
+    }
 } // TesterLib

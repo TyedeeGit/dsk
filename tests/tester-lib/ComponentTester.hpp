@@ -9,70 +9,30 @@
 #pragma once
 #include "common.hpp"
 
-#include "ComponentResults.hpp"
-#include "Tester.hpp"
-#include "ModuleTester.hpp"
+#include "Results.hpp"
 
 namespace TesterLib {
     /**
      * @brief Base class for component testers.
      */
-    class ComponentTester : public Tester {
+    class ComponentTester {
         protected:
-            /**
-             * @brief Gets the modules in this component.
-             * @return The modules in this component.
-             */
-            [[nodiscard]] [[nodiscard]] virtual std::vector<ModuleTester *> get_modules() const = 0;
+            Results results;
+            TestInfo test_info;
 
-            /**
-             * @brief Gets the name of the component.
-             * @return The name of the component.
-             */
-            [[nodiscard]] virtual std::string get_component_name() const = 0;
+            virtual TestList get_tests() const {
+                return {};
+            }
+
+            explicit ComponentTester(TestNameList test_name_list) : results(test_name_list),
+                                                                    test_info(std::move(test_name_list)) {}
         public:
-            /**
-             * @brief Constructor.
-             */
-            ComponentTester() = default;
+            virtual ~ComponentTester() = default;
 
-            /**
-             * @brief Gets the fully qualified name of the component.
-             * @return The fully qualified name of the component.
-             */
-            [[nodiscard]] std::string get_full_name() const override {
-                return this->get_component_name();
-            }
-            /**
-             * @brief Gets the name of the component.
-             * @return The name of the component.
-             */
-            [[nodiscard]] std::string get_name() const override {
-                return this->get_component_name();
-            }
+            virtual const ComponentName &get_name() const = 0;
+            [[nodiscard]] const TestInfo &get_test_info() const { return test_info; }
+            [[nodiscard]] const Results &get_results() const { return results; }
 
-            /**
-             * @brief Runs all the tests in all the modules in this component.
-             * @return The results of all the tests.
-             */
-            [[nodiscard]] ComponentResults test_all() const;
-
-            /**
-             * @brief Gets the total number of modules in the component.
-             * @return The total number of modules in the component.
-             */
-            [[nodiscard]] unsigned get_total_modules() const { return this->get_modules().size(); }
-
-            /**
-             * @brief Gets the total number of tests in the component.
-             * @return The total number of tests in the component.
-             */
-            [[nodiscard]] unsigned get_total_tests() const {
-                unsigned total = 0;
-                for (const auto &module : this->get_modules()) {
-                    total += module->get_total_tests();
-                }
-                return total;
-            }
+            void run_tests();
     };
 } // TesterLib
