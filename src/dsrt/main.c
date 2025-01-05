@@ -8,7 +8,6 @@
  * @brief Main source file.
  */
 
-#include "main.h"
 #include "dsrt_memory.h"
 #include "err.h"
 #include <stdbool.h>

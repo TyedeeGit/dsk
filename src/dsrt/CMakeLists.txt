@@ -9,7 +9,6 @@ Build the DSRT library.
 
 add_library(dsrt SHARED
         main.c
-        main.h
         common.h
         dsrt_memory.c
         dsrt_memory.h

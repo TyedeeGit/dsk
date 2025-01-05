@@ -11,9 +11,7 @@
 #pragma once
 #include <string>
 #include <vector>
-#include <algorithm>
 #include <map>
-#include <unordered_set>
 #include <utility>
 #include <iostream>
 #include <optional>
@@ -27,6 +25,8 @@ namespace Logging {}
  * @brief Namespace for testers.
  */
 namespace TesterLib {
+    class TestLogger;
+
     /**
      * @brief A dictionary.
      * @details Alias for @code std::map@endcode.
@@ -61,6 +61,10 @@ namespace TesterLib {
      */
     using String = std::string;
 
+    /**
+     * @brief A name for a component.
+     * @details Alias for @code String@endcode.
+     */
     using ComponentName = String;
 
     /**
@@ -99,12 +103,22 @@ namespace TesterLib {
      */
     using QualifiedName = Pair<ModuleName, TestName>;
 
-    class TestLogger;
-
+    /**
+     * @brief A test.
+     * @details Alias for @code void(*)(const TestLogger &logger)@endcode.
+     */
     using Test = void(*)(const TestLogger &logger);
 
+    /**
+     * @brief A map of test names to tests.
+     * @details Alias for @code Dict<TestName, Test>@endcode.
+     */
     using ModuleTests = Dict<TestName, Test>;
 
+    /**
+     * @brief A map of module names to their tests.
+     * @details Alias for @code Dict<ModuleName, ModuleTests>@endcode.
+     */
     using TestList = Dict<ModuleName, ModuleTests>;
 
     /**

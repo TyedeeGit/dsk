@@ -15,9 +15,6 @@
 #include <sstream>
 
 namespace TesterLib {
-    /**
-     * @brief Runs the tests in this component and logs the results.
-     */
     void ComponentTester::run_tests() {
         // Count total tests and modules
         const unsigned total_tests = test_info.get_global_total();

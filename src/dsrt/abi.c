@@ -1,9 +1,11 @@
 /**
  * Copyright (C) 2024-2025 Gianmarco Lenzi
+ * Licensed under MIT as part of the DSK project, see LICENSE file for details.
+ * A copy of the license can be found at: https://opensource.org/licenses/MIT.
  *
  * @file abi.c
  * @author Gianmarco Lenzi
- * @brief 
+ * @brief Implementation of the DSRT ABI helper functions.
  */
 
 #include "abi.h"
