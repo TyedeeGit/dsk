@@ -36,7 +36,7 @@ namespace TesterLib {
 
             for (const auto &test_name : module_test_names) {
                 // Define the test scope
-                const auto test_scope = module_scope + "." + test_name;
+                auto test_scope = module_scope + "."; test_scope += test_name;
 
                 // Log that we are running this test
                 Logging::log_info(test_scope, "Running test...");
