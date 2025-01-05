@@ -421,6 +421,16 @@ DSRTFloat64 dsrt_unpack_float64(DSRTSeeker *seeker);
  */
 void dsrt_pack_float64(DSRTSeeker *seeker, DSRTFloat64 value);
 
+/**
+ * @brief Copy a section from an array to a destination buffer.
+ * @param dest_writer The destination seeker.
+ * @param src The source buffer.
+ * @param size The size of the section.
+ * @param start The start index of the section.
+ * @param end The end index of the section.
+ */
+void dsrt_copy_section_from_array(DSRTSeeker *dest_writer, DSRTBuffer src, DSRTSize size, DSRTIndex start,
+                                  DSRTIndex end);
 
 struct DSRTCTypeDescriptor_;
 

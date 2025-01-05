@@ -56,6 +56,7 @@ typedef struct {
 
 static const DSRTErrorInfo DSRT_OUT_OF_MEMORY = {DSRT_MEMORY_ERROR, "Out of memory!"};
 static const DSRTErrorInfo DSRT_BAD_SIZE_ARG = {DSRT_MEMORY_ERROR, "Invalid size argument!"};
+static const DSRTErrorInfo DSRT_BAD_INDEX = {DSRT_MEMORY_ERROR, "Invalid index!"};
 static const DSRTErrorInfo DSRT_INVALID_HEAP = {DSRT_MEMORY_ERROR, "Invalid heap!"};
 static const DSRTErrorInfo DSRT_NULL_POINTER = {DSRT_MEMORY_ERROR, "Null pointer passed as argument!"};
 

@@ -302,3 +302,22 @@ void dsrt_pack_float64(DSRTSeeker *seeker, const DSRTFloat64 value) {
     // Update the position.
     seeker->position += sizeof(DSRTFloat64);
 }
+
+void dsrt_copy_section_from_array(DSRTSeeker *dest_writer, const DSRTBuffer src, const DSRTSize size, const DSRTIndex start,
+    const DSRTIndex end) {
+    // Check the bounds.
+    if (start > end || end > src.size) {
+        dsrt_error(DSRT_BAD_INDEX);
+        return;
+    }
+
+    // Check the source buffer.
+    if (src.data == NULL) {
+        dsrt_error(DSRT_NULL_POINTER);
+        return;
+    }
+
+    // Write the data.
+    dsrt_seeker_write(dest_writer, (DSRTBuffer) {(end - start) * size, src.data + start * size});
+}
+
