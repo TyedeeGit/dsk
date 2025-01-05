@@ -31,6 +31,6 @@ add_subdirectory(tests)
 
 include(CTest)
 
-add_test(NAME tests COMMAND tests)
+add_test(NAME dsrt COMMAND test-dsrt)
 
 # TODO: Add installer
