@@ -53,20 +53,18 @@ namespace TesterLib {
                 }
             }
 
-            if (const unsigned total_module_failures = results.get_total_module_failures(module_name); total_module_failures > 0) {
+            // Get the total module failures
+            const unsigned total_module_failures = results.get_total_module_failures(module_name);
+
+            if (total_module_failures > 0) {
                 // Create a failure message stream
                 std::stringstream failure_message_stream{""};
 
-                // Get the pass rate
-                const double pass_rate = static_cast<double>(total_module_tests - total_module_failures) / total_module_tests * 100.0;
-
                 // ```
-                // Module finished with {total_module_failures} failures out of {total_module_tests} test(s).
-                // {pass_rate}%({total_module_tests - total_module_failures}/{total_module_tests}) pass rate. :(
+                // Module finished with {total_module_failures} failures out of {total_module_tests} test(s). :(
                 // ```
                 failure_message_stream << "Module finished with " << total_module_failures << " failures out of " <<
-                    total_module_tests << " test(s). " << std::fixed << std::setprecision(1) << pass_rate << "%(" <<
-                        total_module_tests - total_module_failures << "/" << total_module_tests << ") pass rate. :(";
+                    total_module_tests << " test(s). :(";
 
                 // Log the failure message
                 Logging::log_fail(module_scope, failure_message_stream.str());
@@ -74,6 +72,20 @@ namespace TesterLib {
                 // Log that all tests in the module passed
                 Logging::log_pass(module_scope, "All tests in module passed! :D");
             }
+
+            // Create a pass rate stream
+            std::stringstream module_pass_rate_stream{""};
+
+            // Get the pass rate
+            const double pass_rate = static_cast<double>(total_module_tests - total_module_failures) / total_module_tests * 100.0;
+
+            // ```
+            // {pass_rate}%({total_module_tests - total_module_failures}/{total_module_tests}) pass rate.
+            // ```
+            module_pass_rate_stream << std::fixed << std::setprecision(1) << pass_rate << "%(" << total_module_tests - total_module_failures << "/" << total_module_tests << ") pass rate.";
+
+            // Log the pass rate
+            Logging::log_info(module_scope, module_pass_rate_stream.str());
 
             if (const unsigned total_module_warnings = results.get_total_module_warnings(module_name); total_module_warnings > 0) {
                 // If the module finished with warnings, log that.
@@ -90,6 +102,7 @@ namespace TesterLib {
         if (total_failures > 0) {
             // Create a failure message stream
             std::stringstream failure_message_stream{""};
+
             // ```
             // Component finished with {total_failures} failed test(s) out of {total_tests} test(s) and
             // {results.get_total_failed_modules()} failed module(s) out of {total_modules} modules(s).
@@ -106,7 +119,7 @@ namespace TesterLib {
         }
 
         // Create a pass rate stream
-        std::stringstream pass_rate_stream{""};
+        std::stringstream component_pass_rate_stream{""};
 
         // Calculate the test and module pass rate
         const double test_pass_rate = static_cast<double>(total_tests - total_failures) / total_tests * 100.0;
@@ -119,13 +132,13 @@ namespace TesterLib {
         // {test_pass_rate}%({total_tests - total_failures}/{total_tests}) test pass rate and
         // {module_pass_rate}%({total_modules - results.get_total_failed_modules()}/{total_modules}) module pass rate.
         // ```
-        pass_rate_stream << std::fixed << std::setprecision(1) << test_pass_rate << "%(" <<
+        component_pass_rate_stream << std::fixed << std::setprecision(1) << test_pass_rate << "%(" <<
                             total_tests - total_failures << "/" << total_tests << ") test pass rate and " <<
                                 module_pass_rate << "%(" << total_modules - results.get_total_failed_modules() << "/" <<
                                     total_modules << ") module pass rate.";
 
         // Log the pass rates
-        Logging::log_info(get_name(), pass_rate_stream.str());
+        Logging::log_info(get_name(), component_pass_rate_stream.str());
 
         if (const unsigned total_warnings = results.get_total_warnings(); total_warnings > 0) {
             // If the component finished with warnings, log that.

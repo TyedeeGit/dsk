@@ -109,7 +109,7 @@ namespace TesterLib {
              * @details Clears the failure messages for the test and updates the total number of failed tests.
              */
             void pass() const {
-                Logging::log_pass(get_scope(), "Test passed.");
+                Logging::log_pass(get_scope(), "Test passed!");
                 results.failure_messages[{module_name, test_name}] = {};
                 results.update_totals();
             }
