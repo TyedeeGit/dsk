@@ -54,6 +54,92 @@ typedef struct {
 } DSRTBuffer;
 
 /**
+ * @brief A list of elements.
+ */
+typedef struct {
+    /**
+     * @brief The size of each element in the list.
+     */
+    DSRTSize element_size;
+
+    /**
+     * @brief The number of elements in the list.
+     */
+    DSRTSize count;
+
+    /**
+     * @brief The capacity of the list.
+     */
+    DSRTSize capacity;
+
+    /**
+     * @brief The data in the list.
+     */
+    char *data;
+} DSRTList;
+
+/**
+ * @brief Allocates a new DSRTList with the given element size.
+ * @details The new list will have a capacity of 1 and will be empty.
+ * @param element_size The size of each element in the list.
+ * @param count
+ * @return A newly allocated DSRTList.
+ */
+DSRTList dsrt_list_new(DSRTSize element_size, DSRTSize count);
+
+/**
+ * @brief Resizes a DSRTList to the given length.
+ * @param list The list to resize.
+ * @param count The new length of the list.
+ * @return The reallocated DSRTList.
+ */
+void dsrt_list_resize(DSRTList *list, DSRTSize count);
+
+/**
+ * @brief Reserves space in a DSRTList for the given number of elements.
+ * @param list The list to reserve space in.
+ * @param capacity The number of elements to reserve space for.
+ */
+void dsrt_list_reserve(DSRTList *list, DSRTSize capacity);
+
+/**
+ * @brief Appends an element to the end of a DSRTList.
+ * @param list The DSRTList to append to.
+ * @param value The value to append.
+ */
+void dsrt_list_append(DSRTList *list, const void *value);
+
+/**
+ * @brief Removes and returns the last element from a DSRTList.
+ * @param list The DSRTList to pop the element from.
+ * @param dest
+ * @return The popped element, or NULL if the list is empty.
+ */
+void dsrt_list_pop_to(DSRTList *list, void *dest);
+
+/**
+ * @brief Gets an element from a DSRTList.
+ * @param list The DSRTList to get the element from.
+ * @param index The index of the element to get.
+ * @return The element at the given index.
+ */
+void *dsrt_list_get(DSRTList list, DSRTSize index);
+
+/**
+ * @brief Sets an element in a DSRTList.
+ * @param list The DSRTList to set the element in.
+ * @param index The index of the element to set.
+ * @param value The value to set.
+ */
+void dsrt_list_set(DSRTList list, DSRTSize index, const void *value);
+
+/**
+ * @brief Frees a DSRTList.
+ * @param list The DSRTList to free.
+ */
+void dsrt_list_free(DSRTList list);
+
+/**
  * @brief A seeker for a buffer.
  */
 typedef struct {
@@ -479,19 +565,19 @@ typedef enum {
     /**
      * @brief Signed integer type.
      */
-    DSRT_INT = 0,
+    DSRT_KIND_INT = 0,
     /**
      * @brief Unsigned integer type.
      */
-    DSRT_NAT = 1,
+    DSRT_KIND_NAT = 1,
     /**
      * @brief Size type.
      */
-    DSRT_SIZE = 2,
+    DSRT_KIND_SIZE = 2,
     /**
      * @brief Floating point type.
      */
-    DSRT_FLOAT = 3
+    DSRT_KIND_FLOAT = 3
 } DSRTSimpleKind;
 
 /**
@@ -549,7 +635,7 @@ typedef struct {
     /**
      * @brief The type of the elements in the array.
      */
-    struct DSRTCTypeDescriptor_ *element_type;
+    const struct DSRTCTypeDescriptor_ *element_type;
 } DSRTCTypeDescriptorArray;
 
 /**
@@ -564,15 +650,15 @@ typedef struct {
     /**
      * @brief The types of the elements in the struct.
      */
-    struct DSRTCTypeDescriptor_ *element_types;
+    const struct DSRTCTypeDescriptor_ *element_types;
 } DSRTCTypeDescriptorStruct;
 
 /**
- * @brief A complex type descriptor.
+ * @brief A ctype descriptor.
  */
 typedef struct DSRTCTypeDescriptor_ {
     /**
-     * @brief The type of the complex type descriptor.
+     * @brief The kind of the complex type descriptor.
      */
     DSRTCTypeDescriptorType type;
 
@@ -596,6 +682,31 @@ typedef struct DSRTCTypeDescriptor_ {
         DSRTCTypeDescriptorStruct as_struct;
     } descriptor;
 } DSRTCTypeDescriptor;
+
+static DSRTCTypeDescriptor DSRT_NAT8 = {DSRT_CTYPE_SIMPLE, {DSRT_KIND_NAT,  {.width = DSRT_WIDTH8}}};
+static DSRTCTypeDescriptor DSRT_NAT16 = {DSRT_CTYPE_SIMPLE, {DSRT_KIND_NAT, {.width = DSRT_WIDTH16}}};
+static DSRTCTypeDescriptor DSRT_NAT32 = {DSRT_CTYPE_SIMPLE, {DSRT_KIND_NAT, {.width = DSRT_WIDTH32}}};
+static DSRTCTypeDescriptor DSRT_NAT64 = {DSRT_CTYPE_SIMPLE, {DSRT_KIND_NAT, {.width = DSRT_WIDTH64}}};
+
+static DSRTCTypeDescriptor DSRT_INT8 = {DSRT_CTYPE_SIMPLE, {DSRT_KIND_INT,  {.width = DSRT_WIDTH8}}};
+static DSRTCTypeDescriptor DSRT_INT16 = {DSRT_CTYPE_SIMPLE, {DSRT_KIND_INT, {.width = DSRT_WIDTH16}}};
+static DSRTCTypeDescriptor DSRT_INT32 = {DSRT_CTYPE_SIMPLE, {DSRT_KIND_INT, {.width = DSRT_WIDTH32}}};
+static DSRTCTypeDescriptor DSRT_INT64 = {DSRT_CTYPE_SIMPLE, {DSRT_KIND_INT, {.width = DSRT_WIDTH64}}};
+
+static DSRTCTypeDescriptor DSRT_FLOAT32 = {DSRT_CTYPE_SIMPLE, {DSRT_KIND_FLOAT, {.float_width = DSRT_FLOAT_WIDTH32}}};
+static DSRTCTypeDescriptor DSRT_FLOAT64 = {DSRT_CTYPE_SIMPLE, {DSRT_KIND_FLOAT, {.float_width = DSRT_FLOAT_WIDTH64}}};
+
+static DSRTCTypeDescriptor DSRT_SIZE = {DSRT_CTYPE_SIMPLE, {DSRT_KIND_SIZE, {}}};
+
+/**
+ * @brief Get the size of a packed ctype descriptor.
+ * @details This function returns the size a packed ctype descriptor would take
+ * up in memory. The size is the total size of all elements of the descriptor,
+ * including the types of the elements of the descriptor.
+ * @param ctype_descriptor The ctype descriptor to get the size of.
+ * @return The size of the packed ctype descriptor.
+ */
+DSRTSize dsrt_get_ctype_descriptor_size(DSRTCTypeDescriptor ctype_descriptor);
 
 
 /**

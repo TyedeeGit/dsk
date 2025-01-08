@@ -12,6 +12,99 @@
 #include "err.h"
 #include <string.h>
 
+DSRTList dsrt_list_new(const DSRTSize element_size, const DSRTSize count) {
+    DSRTList list = {element_size, 0, 1, malloc(element_size)};
+
+    if (list.data == NULL) {
+        dsrt_error(DSRT_OUT_OF_MEMORY);
+        return (DSRTList) {};
+    }
+
+    dsrt_list_resize(&list, count);
+
+    memset(list.data, 0, list.element_size * list.count);
+
+    return list;
+}
+
+void dsrt_list_resize(DSRTList *list, const DSRTSize count) {
+    if (count == 0) {
+        list->count = 0;
+        return;
+    }
+
+    if (list->capacity < count || count < list->capacity / 2) {
+        DSRTSize capacity = 1;
+
+        while (capacity < count) {
+            capacity *= 2;
+        }
+
+        dsrt_list_reserve(list, capacity);
+    }
+
+    list->count = count;
+}
+
+void dsrt_list_reserve(DSRTList *list, const DSRTSize capacity) {
+    if (capacity == 0) {
+        return;
+    }
+
+    if (list->count > capacity) {
+        dsrt_error(DSRT_BAD_SIZE_ARG);
+        return;
+    }
+
+    void *new_data = realloc(list->data, capacity * list->element_size);
+
+    if (new_data == NULL) {
+        dsrt_error(DSRT_OUT_OF_MEMORY);
+        return;
+    }
+
+    list->data = new_data;
+    list->capacity = capacity;
+}
+
+void dsrt_list_append(DSRTList *list, const void *value) {
+    dsrt_list_resize(list, list->count + 1);
+    dsrt_list_set(*list, list->count - 1, value);
+}
+
+void dsrt_list_pop_to(DSRTList *list, void *dest) {
+    if (list->count > 0) {
+        memcpy(dest, dsrt_list_get(*list, list->count - 1), list->element_size);
+        list->count--;
+        dsrt_list_resize(list, list->count);
+        return;
+    }
+
+    dsrt_error(DSRT_BAD_INDEX);
+}
+
+void *dsrt_list_get(const DSRTList list, const DSRTSize index) {
+    if (index < list.count) {
+        return list.data + index * list.element_size;
+    }
+
+    dsrt_error(DSRT_BAD_INDEX);
+    return NULL;
+}
+
+void dsrt_list_set(const DSRTList list, const DSRTSize index, const void *value) {
+    if (index < list.count) {
+        memcpy(list.data + index * list.element_size, value, list.element_size);
+        return;
+    }
+
+    dsrt_error(DSRT_BAD_INDEX);
+}
+
+void dsrt_list_free(const DSRTList list) {
+    free(list.data);
+}
+
 DSRTBuffer dsrt_alloc_buffer(const DSRTSize size) {
     // Allocate the buffer.
     const DSRTBuffer buffer = {size, malloc(size)};
@@ -323,3 +416,142 @@ void dsrt_copy_section_from_array(DSRTSeeker *dest_writer, const DSRTBuffer src,
     dsrt_seeker_write(dest_writer, (DSRTBuffer) {(end - start) * size, src.data + start * size});
 }
 
+DSRTSize dsrt_get_ctype_descriptor_type_args(const DSRTCTypeDescriptor ctype_descriptor) {
+    switch (ctype_descriptor.type) {
+        case DSRT_CTYPE_SIMPLE:
+            return 0;
+        case DSRT_CTYPE_ARRAY:
+            return 1;
+        case DSRT_CTYPE_STRUCT:
+            return ctype_descriptor.descriptor.as_struct.num;
+    }
+
+    return 0;
+}
+
+DSRTSize dsrt_get_ctype_descriptor_simple_size(const DSRTCTypeDescriptorSimple ctype_descriptor) {
+    switch (ctype_descriptor.kind) {
+        case DSRT_KIND_INT:
+            switch (ctype_descriptor.size.width) {
+                case DSRT_WIDTH8:
+                    return sizeof(DSRTInt8);
+                case DSRT_WIDTH16:
+                    return sizeof(DSRTInt16);
+                case DSRT_WIDTH32:
+                    return sizeof(DSRTInt32);
+                case DSRT_WIDTH64:
+                    return sizeof(DSRTInt64);
+            }
+        case DSRT_KIND_NAT:
+            switch (ctype_descriptor.size.width) {
+                case DSRT_WIDTH8:
+                    return sizeof(DSRTNat8);
+                case DSRT_WIDTH16:
+                    return sizeof(DSRTNat16);
+                case DSRT_WIDTH32:
+                    return sizeof(DSRTNat32);
+                case DSRT_WIDTH64:
+                    return sizeof(DSRTNat64);
+            }
+        case DSRT_KIND_FLOAT:
+            switch (ctype_descriptor.size.float_width) {
+                case DSRT_FLOAT_WIDTH32:
+                    return sizeof(DSRTFloat32);
+                case DSRT_FLOAT_WIDTH64:
+                    return sizeof(DSRTFloat64);
+            }
+        case DSRT_KIND_SIZE:
+            return sizeof(DSRTSize);
+    }
+
+    return 0;
+}
+
+typedef struct {
+    enum {
+        SIMPLE,
+        ARRAY,
+        STRUCT
+    } type;
+
+    union {
+        DSRTSize size;
+        DSRTSize num;
+    };
+} Token;
+
+DSRTSize dsrt_get_ctype_descriptor_size(const DSRTCTypeDescriptor ctype_descriptor) {
+    DSRTList stack = dsrt_list_new(sizeof(Token), 0);
+    DSRTList descriptor_stack = dsrt_list_new(sizeof(DSRTCTypeDescriptor), 1);
+
+    dsrt_list_set(descriptor_stack, 0, &ctype_descriptor);
+
+    while (descriptor_stack.count > 0) {
+        DSRTCTypeDescriptor top_descriptor;
+        dsrt_list_pop_to(&descriptor_stack, &top_descriptor);
+
+        switch (top_descriptor.type) {
+            case DSRT_CTYPE_SIMPLE:
+                const Token token = {SIMPLE, {dsrt_get_ctype_descriptor_simple_size(top_descriptor.descriptor.as_simple)}};
+                dsrt_list_append(&stack, &token);
+                break;
+            case DSRT_CTYPE_ARRAY:
+                const Token array_token = {ARRAY, {top_descriptor.descriptor.as_array.num}};
+                dsrt_list_append(&stack, &array_token);
+                dsrt_list_append(&descriptor_stack, top_descriptor.descriptor.as_array.element_type);
+                break;
+            case DSRT_CTYPE_STRUCT:
+                const Token struct_token = {STRUCT, {top_descriptor.descriptor.as_struct.num}};
+                dsrt_list_append(&stack, &struct_token);
+
+                for (DSRTSize i = 0; i < top_descriptor.descriptor.as_struct.num; i++) {
+                    dsrt_list_append(&descriptor_stack, &top_descriptor.descriptor.as_struct.element_types[i]);
+                }
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    dsrt_list_free(descriptor_stack);
+
+    DSRTList operands = dsrt_list_new(sizeof(DSRTSize), 0);
+
+    for (DSRTSize i = 0; i < stack.count; i++) {
+        const DSRTSize j = stack.count - i - 1;
+
+        const Token token = *(Token *) dsrt_list_get(stack, j);
+
+        switch (token.type) {
+            case SIMPLE:
+                dsrt_list_append(&operands, &token.size);
+                break;
+            case ARRAY:
+                DSRTSize array_size;
+                dsrt_list_pop_to(&operands, &array_size);
+                array_size *= token.num;
+                dsrt_list_append(&operands, &array_size);
+                break;
+            case STRUCT:
+                DSRTSize struct_size = 0;
+
+                for (DSRTSize k = 0; k < token.num; k++) {
+                    DSRTSize temp;
+                    dsrt_list_pop_to(&operands, &temp);
+                    struct_size += temp;
+                }
+
+                dsrt_list_append(&operands, &struct_size);
+                break;
+        }
+    }
+
+    DSRTSize result;
+    dsrt_list_pop_to(&operands, &result);
+
+    dsrt_list_free(operands);
+    dsrt_list_free(stack);
+
+    return result;
+}

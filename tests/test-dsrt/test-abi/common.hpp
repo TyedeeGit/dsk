@@ -38,8 +38,18 @@ namespace TestDSRT::TestABI {
      */
     void array_copy(const TestLogger &logger);
 
+    /**
+     * @brief Test the ctype functions.
+     *
+     * @details This function tests size, packing, and unpacking of ctypes.
+     *
+     * @param logger The logger used to record test results.
+     */
+    void ctype(const TestLogger &logger);
+
     inline ModuleTests tests = {
-        {"pack_unpack", &pack_unpack},
-        {"array_copy", &array_copy}
+        {"pack_unpack", pack_unpack},
+        {"array_copy", array_copy},
+        {"ctype", ctype},
     };
 } // TestDSRT::TestABI

@@ -19,16 +19,10 @@ extern "C" {
 #endif
 
 /**
- * @brief DSRT object type.
- * @details A DSRT object is anything.
+ * @brief DSRT any type.
+ * @details A DSRT any is anything.
  */
 typedef void *DSRTAny;
-
-/**
- * @brief DSRT term type.
- * @details A term is a DSRT object, and can have an arbitrary memory layout.
- */
-typedef DSRTAny DSRTTerm;
 
 /**
  * @brief DSRT size type.

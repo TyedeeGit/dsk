@@ -40,6 +40,6 @@ namespace TestDSRT::TestMemory {
     void simple_array(const TestLogger &logger);
 
     inline ModuleTests tests = {
-        {"simple_single", &simple_single}
+        // {"simple_single", &simple_single}
     };
 } // TestDSRT::TestMemory

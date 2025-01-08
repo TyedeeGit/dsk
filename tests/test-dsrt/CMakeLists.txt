@@ -17,6 +17,7 @@ add_executable(test-dsrt
         test-abi/common.hpp
         test-abi/array_copy.cpp
         test-abi/pack_unpack.cpp
+        test-abi/ctype.cpp
 )
 
 target_link_libraries(test-dsrt PRIVATE

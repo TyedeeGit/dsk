@@ -15,12 +15,8 @@
 
 void dsrt_init(void) {
     can_deinit = true;
-    dsrt_simple_heap_init();
-    dsrt_term_heap_init();
 }
 
 void dsrt_deinit(void) {
     dsrt_start_deinit();
-    dsrt_simple_heap_deinit();
-    dsrt_term_heap_deinit();
 }
